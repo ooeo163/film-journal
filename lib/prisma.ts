@@ -13,12 +13,19 @@ if (!connectionString) {
 
 const adapter = new PrismaPg({ connectionString });
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
+function createPrismaClient() {
+  return new PrismaClient({
     adapter,
     log: ["error", "warn"],
   });
+}
+
+export const prisma =
+  globalForPrisma.prisma &&
+  "album" in globalForPrisma.prisma &&
+  "albumPhoto" in globalForPrisma.prisma
+    ? globalForPrisma.prisma
+    : createPrismaClient();
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;

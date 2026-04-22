@@ -26,4 +26,33 @@ model Photo {
   isPublished Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  albumLinks  AlbumPhoto[]
+}
+
+model Album {
+  id            String       @id @default(cuid())
+  title         String
+  slug          String       @unique
+  description   String?
+  coverImageUrl String?
+  sourceUrl     String?
+  imageCount    Int          @default(0)
+  isPublished   Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  photoLinks    AlbumPhoto[]
+}
+
+model AlbumPhoto {
+  id        String   @id @default(cuid())
+  albumId   String
+  photoId   String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  album Album @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  photo Photo @relation(fields: [photoId], references: [id], onDelete: Cascade)
+
+  @@unique([albumId, photoId])
+  @@index([albumId, sortOrder])
 }
