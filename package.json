@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "import:local-albums": "node scripts/import-local-albums.cjs"
+    "import:local-albums": "node scripts/import-local-albums.cjs",
+    "dedupe:local-imports": "node scripts/dedupe-local-imports.cjs"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.7.0",

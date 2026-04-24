@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { NextRequest } from "next/server";
-import { resolveLocalMediaPath } from "@/lib/local-media";
+import { resolveLocalMediaPath } from "@/lib/local-media-server";
 
 const mimeTypes: Record<string, string> = {
   ".jpg": "image/jpeg",

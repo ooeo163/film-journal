@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { PhotoDetailViewer } from "@/components/photo-detail-viewer";
 import { prisma } from "@/lib/prisma";
 
 type PhotoDetailPageProps = {
@@ -61,23 +62,16 @@ export default async function PhotoDetailPage({
 
           <section className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-[2rem] border border-stone-700/80 bg-[rgba(20,17,14,0.88)] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.32)] backdrop-blur-[2px]">
-              <div className="flex aspect-[4/3] items-center justify-center rounded-[1.5rem] border border-stone-700/70 bg-[rgba(13,11,9,0.92)] p-6 text-center">
-                <div className="max-w-lg space-y-4">
-                  <p className="text-xs uppercase tracking-[0.35em] text-stone-500">
-                    Image Display Placeholder
-                  </p>
-                  <h2 className="text-2xl font-semibold text-stone-100">
-                    {photo.title}
-                  </h2>
-                  <p className="text-sm leading-7 text-stone-400 break-all">
-                    当前阶段先保留图片展示位。后续接入真实图片组件、缩略图/展示图切换和放大查看时，
-                    这里会显示正式图片。
-                  </p>
-                  <p className="text-xs leading-6 text-stone-500 break-all">
-                    {photo.imageUrl}
-                  </p>
-                </div>
-              </div>
+              <PhotoDetailViewer
+                item={{
+                  id: photo.id,
+                  title: photo.title,
+                  imageUrl: photo.imageUrl,
+                  subtitle: `${photo.camera ?? "Unknown Camera"} · ${
+                    photo.filmStock ?? "Unknown Film"
+                  }`,
+                }}
+              />
             </div>
 
             <div className="grid gap-8">
@@ -126,7 +120,7 @@ export default async function PhotoDetailPage({
                   Next Steps
                 </p>
                 <div className="mt-4 space-y-3 text-sm leading-7 text-stone-300">
-                  <p>后续会补充真实图片组件、详情页上下篇切换和相册关联。</p>
+                  <p>当前已经接入真实图片组件和点击放大查看。</p>
                   <p>目前先完成照片浏览主线的闭环，确保结构和数据链路都稳定。</p>
                 </div>
               </section>

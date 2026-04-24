@@ -8,8 +8,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Georgia", "Noto Serif SC", "Songti SC", serif;
+  --font-mono: "Courier New", "SFMono-Regular", monospace;
 }
 
 * {
@@ -23,7 +23,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: Georgia, "Noto Serif SC", "Songti SC", serif;
 }
 
 a {
