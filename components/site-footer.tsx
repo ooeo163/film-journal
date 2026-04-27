@@ -10,7 +10,7 @@ export function SiteFooter() {
         </div>
 
         <div className="space-y-1 text-left md:text-right">
-          <p>Photos, albums, journals, and long-term archive.</p>
+          <p>Photos, albums, and long-term archive.</p>
           <p>Built with Next.js, PostgreSQL, and Prisma.</p>
         </div>
       </div>

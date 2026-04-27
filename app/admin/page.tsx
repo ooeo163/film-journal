@@ -5,8 +5,8 @@ import { prisma } from "@/lib/prisma";
 const adminLinks = [
   {
     title: "内容总览",
-    description: "先从公开内容管理切入，后续再接草稿、审核和发布状态。",
-    href: "/works",
+    description: "先从公开相册入口查看内容呈现，后续再接审核和发布状态。",
+    href: "/albums",
   },
   {
     title: "管理照片",
@@ -17,11 +17,6 @@ const adminLinks = [
     title: "管理相册",
     description: "进入相册列表，后续在这里接排序、封面与审核能力。",
     href: "/admin/albums",
-  },
-  {
-    title: "管理文章",
-    description: "进入文章列表，后续在这里接草稿和发布流程。",
-    href: "/admin/journals",
   },
 ];
 
@@ -64,12 +59,12 @@ export default async function AdminPage() {
           ].map((item) => (
             <article
               key={item.label}
-              className="border border-stone-700 bg-[#231d18] px-5 py-4 shadow-[0_1px_0_rgba(255,255,255,0.03)_inset]"
+              className="border border-[#d6d0c5] bg-white px-5 py-4 shadow-[0_12px_30px_rgba(28,24,20,0.05)]"
             >
-              <p className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
+              <p className="text-[11px] uppercase tracking-[0.24em] text-[#8a8276]">
                 {item.label}
               </p>
-              <p className="mt-3 text-3xl font-semibold tracking-tight text-stone-50">
+              <p className="mt-3 text-3xl font-semibold tracking-tight text-[#111111]">
                 {item.value}
               </p>
             </article>
@@ -77,9 +72,9 @@ export default async function AdminPage() {
         </>
       }
     >
-      <section className="border border-stone-700 bg-[#221d18] shadow-[0_1px_0_rgba(255,255,255,0.03)_inset]">
-        <div className="border-b border-stone-700 px-5 py-4">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.24em] text-stone-300">
+      <section className="border border-[#d6d0c5] bg-white shadow-[0_16px_40px_rgba(28,24,20,0.05)]">
+        <div className="border-b border-[#ded8cf] bg-[#f7f5f0] px-5 py-4">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.24em] text-[#222222]">
             快速入口
           </h2>
         </div>
@@ -88,20 +83,20 @@ export default async function AdminPage() {
           {adminLinks.map((item) => (
             <article
               key={item.href}
-              className="border-t border-stone-700 p-5 md:border-r md:[&:nth-child(2n)]:border-r-0"
+              className="border-t border-[#ded8cf] bg-white p-5 transition-colors hover:bg-[#f7f5f0] md:border-r md:border-r-[#ded8cf] md:[&:nth-child(2n)]:border-r-0"
             >
-              <p className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
+              <p className="text-[11px] uppercase tracking-[0.24em] text-[#8a8276]">
                 Module
               </p>
-              <h2 className="mt-2 text-xl font-semibold text-stone-50">
+              <h2 className="mt-2 text-xl font-semibold text-[#111111]">
                 {item.title}
               </h2>
-              <p className="mt-3 text-sm leading-7 text-stone-300">
+              <p className="mt-3 text-sm leading-7 text-[#5d574f]">
                 {item.description}
               </p>
               <Link
                 href={item.href}
-                className="mt-5 inline-flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-stone-200 transition-colors hover:text-white"
+                className="mt-5 inline-flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-[#e60012] transition-colors hover:text-[#9d0010]"
               >
                 进入
                 <span aria-hidden="true">→</span>

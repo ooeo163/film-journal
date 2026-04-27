@@ -49,12 +49,6 @@ export default async function AdminEditJournalPage({
           >
             返回文章管理
           </Link>
-          <Link
-            href={`/journals/${journal.slug}`}
-            className="border border-stone-700 bg-[#1d1916] px-4 py-2 text-stone-300 transition-colors hover:border-stone-500 hover:text-white"
-          >
-            查看前台
-          </Link>
           <AdminDeleteButton
             endpoint={`/api/admin/journals/${journal.id}`}
             redirectTo="/admin/journals"

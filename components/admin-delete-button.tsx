@@ -69,7 +69,7 @@ export function AdminDeleteButton({
       disabled={isDeleting}
       className={
         className ??
-        "text-stone-500 transition-colors hover:text-red-300 disabled:cursor-not-allowed disabled:opacity-60"
+        "text-[#8a4a40] transition-all hover:text-[#9a2f22] disabled:cursor-not-allowed disabled:opacity-60"
       }
     >
       {isDeleting ? "删除中" : label}

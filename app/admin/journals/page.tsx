@@ -96,12 +96,6 @@ export default async function AdminJournalsPage({
           >
             返回后台
           </Link>
-          <Link
-            href="/journals"
-            className="border border-stone-700 bg-[#1d1916] px-4 py-2 text-stone-300 transition-colors hover:border-stone-500 hover:text-white"
-          >
-            查看前台文章
-          </Link>
         </>
       }
       stats={
@@ -247,12 +241,6 @@ export default async function AdminJournalsPage({
                   className="text-stone-300 transition-colors hover:text-white"
                 >
                   编辑
-                </Link>
-                <Link
-                  href={`/journals/${journal.slug}`}
-                  className="text-stone-300 transition-colors hover:text-white"
-                >
-                  查看
                 </Link>
                 <AdminDeleteButton
                   endpoint={`/api/admin/journals/${journal.id}`}

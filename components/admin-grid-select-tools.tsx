@@ -17,19 +17,19 @@ export function AdminGridSelectTools({ gridId }: AdminGridSelectToolsProps) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 text-sm text-stone-400">
+    <div className="flex flex-wrap items-center gap-2 text-sm text-[#6d665d]">
       <span>选择</span>
       <button
         type="button"
         onClick={() => setChecked(true)}
-        className="border border-stone-700 bg-[#1d1916] px-3 py-1.5 text-stone-200 transition-colors hover:border-stone-500 hover:text-white"
+        className="border border-[#d6d0c5] bg-white px-3 py-1.5 text-[#33312e] transition-all hover:border-[#c44b37] hover:bg-[#fff8f5] hover:text-[#8a2f22]"
       >
         当前页全选
       </button>
       <button
         type="button"
         onClick={() => setChecked(false)}
-        className="border border-stone-700 bg-[#1d1916] px-3 py-1.5 text-stone-300 transition-colors hover:border-stone-500 hover:text-white"
+        className="border border-[#d6d0c5] bg-white px-3 py-1.5 text-[#6d665d] transition-all hover:border-[#c44b37] hover:bg-[#fff8f5] hover:text-[#8a2f22]"
       >
         清空选择
       </button>

@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
   const redirectTo =
     typeof formData.get("redirectTo") === "string" && formData.get("redirectTo")
       ? String(formData.get("redirectTo"))
-      : "/works";
+      : "/albums";
 
   const user = identifier
     ? await prisma.user.findFirst({

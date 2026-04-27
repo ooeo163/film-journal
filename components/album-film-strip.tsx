@@ -46,7 +46,36 @@ export function AlbumFilmStrip({
     <PhotoViewerGallery items={viewerItems}>
       {({ openAt }) => (
         <div className="overflow-hidden">
-          <div className="space-y-5">
+          <div className="relative overflow-hidden rounded-[1.4rem] border border-[#6f6253] bg-[linear-gradient(90deg,#8e7a64_0%,#6d604e_100%)] px-3 py-5 shadow-[0_14px_34px_rgba(0,0,0,0.28)] md:hidden">
+            <div className="pointer-events-none absolute inset-y-0 left-3 w-4 bg-[repeating-linear-gradient(180deg,#14110f_0px,#14110f_12px,transparent_12px,transparent_24px)] opacity-95" />
+            <div className="pointer-events-none absolute inset-y-0 right-3 w-4 bg-[repeating-linear-gradient(180deg,#14110f_0px,#14110f_12px,transparent_12px,transparent_24px)] opacity-95" />
+
+            <div className="relative mx-auto w-[calc(100%-2.5rem)]">
+              {photos.map((photo, index) => (
+                <button
+                  key={photo.id}
+                  type="button"
+                  className="-mt-px block w-full border border-[#54483c] bg-[linear-gradient(180deg,#2b241f_0%,#181411_100%)] p-2 text-left transition-transform active:scale-[0.99]"
+                  onClick={() => openAt(index)}
+                  aria-label={`Open ${photo.title}`}
+                >
+                  <div className="rounded-[0.9rem] border border-stone-700/70 bg-black/75 p-1.5">
+                    <div className="overflow-hidden rounded-[0.7rem] bg-[rgba(16,13,11,0.92)]">
+                      <img
+                        src={photo.thumbUrl ?? photo.imageUrl}
+                        alt={photo.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-auto w-full object-contain"
+                      />
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden space-y-5 md:block">
             {filmRows.map((row, rowIndex) => {
               const offsetClass = rowIndex % 2 === 0 ? "mr-8" : "ml-8";
               const paddedRow = [...row];
@@ -76,6 +105,8 @@ export function AlbumFilmStrip({
                                 <img
                                   src={photo.thumbUrl ?? photo.imageUrl}
                                   alt={photo.title}
+                                  loading="lazy"
+                                  decoding="async"
                                   className="h-full w-full object-cover"
                                 />
                               </div>

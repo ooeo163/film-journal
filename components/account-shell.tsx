@@ -4,7 +4,6 @@ const accountNavItems = [
   { label: "总览", href: "/me" },
   { label: "我的照片", href: "/me/photos" },
   { label: "我的相册", href: "/me/albums" },
-  { label: "我的文章", href: "/me/journals" },
   { label: "账号设置", href: "/me/settings" },
 ];
 
@@ -31,9 +30,10 @@ export function AccountShell({
       />
       <div className="fixed inset-0 bg-[linear-gradient(90deg,rgba(9,8,7,0.9)_0%,rgba(13,11,9,0.8)_36%,rgba(14,12,10,0.72)_65%,rgba(10,9,8,0.86)_100%)]" />
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(7,6,5,0.26)_58%,rgba(5,4,4,0.74)_100%)]" />
+      <div className="page-bg-soft-light fixed inset-0" />
 
-      <div className="relative z-10 px-6 py-28">
-        <div className="mx-auto grid w-full max-w-[1480px] gap-8 xl:grid-cols-[300px_1fr]">
+      <div className="relative z-10 px-6 pb-14 pt-5">
+        <div className="mx-auto grid w-full max-w-[1480px] gap-4 xl:grid-cols-[300px_1fr]">
           <aside className="rounded-[2rem] border border-stone-700/80 bg-[rgba(17,16,15,0.84)] p-6 shadow-[0_18px_50px_rgba(17,16,15,0.22)] backdrop-blur-[2px] xl:sticky xl:top-24 xl:h-fit">
             <div className="border-b border-stone-700/70 pb-4">
               <p className="text-xs uppercase tracking-[0.35em] text-stone-500">

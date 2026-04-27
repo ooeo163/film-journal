@@ -49,7 +49,7 @@ export default async function AdminEditAlbumPage({
   }
 
   return (
-    <main className="min-h-screen bg-[#14110f] px-4 pb-10 pt-18 text-stone-100 md:px-6">
+    <main className="admin-light min-h-screen bg-[#14110f] px-4 pb-10 pt-18 text-stone-100 md:px-6">
       <div className="mx-auto max-w-[1080px] space-y-5">
         <header className="border border-stone-700 bg-[#221d18] px-6 py-5 shadow-[0_1px_0_rgba(255,255,255,0.03)_inset]">
           <div className="flex flex-wrap items-start justify-between gap-4">

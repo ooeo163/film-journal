@@ -5,7 +5,6 @@ const adminNavItems = [
   { href: "/admin", label: "总览" },
   { href: "/admin/photos", label: "照片管理" },
   { href: "/admin/albums", label: "相册管理" },
-  { href: "/admin/journals", label: "文章管理" },
   { href: "/admin/media", label: "导入与上传" },
 ];
 
@@ -29,14 +28,14 @@ export function AdminShell({
   children,
 }: AdminShellProps) {
   return (
-    <main className="min-h-screen bg-[#181411] px-4 pb-10 pt-18 text-stone-100 md:px-6">
+    <main className="admin-light min-h-screen bg-[linear-gradient(180deg,#f7f5f0_0%,#eeebe3_100%)] px-4 pb-10 pt-18 text-[#1f1f1d] md:px-6">
       <div className="mx-auto grid max-w-[1480px] gap-5 lg:grid-cols-[240px_minmax(0,1fr)]">
-        <aside className="h-fit border border-stone-700 bg-[#211c18] shadow-[0_1px_0_rgba(255,255,255,0.03)_inset]">
-          <div className="border-b border-stone-700 px-5 py-5">
-            <p className="text-[11px] uppercase tracking-[0.32em] text-stone-500">
+        <aside className="h-fit border border-[#d6d0c5] bg-[#fbfaf7] shadow-[0_18px_44px_rgba(28,24,20,0.06)]">
+          <div className="border-b border-[#ded8cf] bg-[#f2efe8] px-5 py-5">
+            <p className="text-[11px] uppercase tracking-[0.32em] text-[#8a8276]">
               Admin Console
             </p>
-            <p className="mt-2 text-lg font-semibold text-stone-50">后台管理</p>
+            <p className="mt-2 text-lg font-semibold text-[#1f1f1d]">后台管理</p>
           </div>
 
           <nav className="p-2">
@@ -49,8 +48,8 @@ export function AdminShell({
                   href={item.href}
                   className={
                     active
-                      ? "mb-1 block border border-amber-600/40 bg-amber-900/20 px-4 py-3 text-sm font-medium text-amber-100"
-                      : "mb-1 block border border-transparent px-4 py-3 text-sm text-stone-200 transition-colors hover:border-stone-700 hover:bg-[#2a241f] hover:text-white"
+                      ? "mb-1 block border border-[#d8cbc0] bg-white px-4 py-3 text-sm font-medium text-[#111111] shadow-[inset_3px_0_0_#e60012]"
+                      : "mb-1 block border border-transparent px-4 py-3 text-sm text-[#4b4741] transition-colors hover:border-[#d8cbc0] hover:bg-[#f4f1eb] hover:text-[#111111]"
                   }
                 >
                   {item.label}
@@ -61,16 +60,16 @@ export function AdminShell({
         </aside>
 
         <section className="space-y-5">
-          <header className="border border-stone-700 bg-[#221d18] shadow-[0_1px_0_rgba(255,255,255,0.03)_inset]">
+          <header className="border border-[#d6d0c5] bg-white shadow-[0_16px_40px_rgba(28,24,20,0.06)]">
             <div className="flex flex-wrap items-start justify-between gap-4 px-6 py-5">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.3em] text-stone-500">
+                <p className="text-[11px] uppercase tracking-[0.3em] text-[#8a8276]">
                   {currentPath.replaceAll("/", " / ").replace(/^ /, "")}
                 </p>
-                <h1 className="mt-2 text-3xl font-semibold tracking-tight text-stone-50">
+                <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#111111]">
                   {title}
                 </h1>
-                <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-300">
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-[#5d574f]">
                   {description}
                 </p>
               </div>

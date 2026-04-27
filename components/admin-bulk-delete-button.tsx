@@ -69,13 +69,13 @@ export function AdminBulkDeleteButton({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-3 text-sm text-stone-400">
+    <div className="flex flex-wrap items-center gap-3 text-sm text-[#6d665d]">
       <span>批量操作</span>
       <button
         type="button"
         onClick={handleBulkDelete}
         disabled={isDeleting}
-        className="border border-red-900/50 bg-red-950/20 px-3 py-1.5 text-sm text-red-200 transition-colors hover:border-red-700 hover:text-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+        className="border border-[#d8a196] bg-white px-3 py-1.5 text-sm text-[#9a2f22] transition-all hover:border-[#c44b37] hover:bg-[#fff5f2] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isDeleting ? "删除中..." : label}
       </button>

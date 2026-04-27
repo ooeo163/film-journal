@@ -70,7 +70,7 @@ function AdminPagination({
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-stone-700 px-5 py-4 text-sm text-stone-400">
+    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#ded8cf] px-5 py-4 text-sm text-[#6d665d]">
       <p>
         显示第 {start}-{end} 条，共 {totalCount} 条
       </p>
@@ -81,8 +81,8 @@ function AdminPagination({
           aria-disabled={currentPage <= 1}
           className={
             currentPage <= 1
-              ? "border border-stone-800 bg-[#171310] px-3 py-1.5 text-stone-600 pointer-events-none"
-              : "border border-stone-700 bg-[#1d1916] px-3 py-1.5 text-stone-200 transition-colors hover:border-stone-500 hover:text-white"
+              ? "border border-[#e3ded6] bg-[#f2efe8] px-3 py-1.5 text-[#bdb6aa] pointer-events-none"
+              : "border border-[#d6d0c5] bg-white px-3 py-1.5 text-[#33312e] transition-all hover:border-[#c44b37] hover:bg-[#fff8f5] hover:text-[#8a2f22]"
           }
         >
           上一页
@@ -94,8 +94,8 @@ function AdminPagination({
             href={buildPageHref(basePath, searchParams, page)}
             className={
               page === currentPage
-                ? "border border-amber-600/40 bg-amber-900/20 px-3 py-1.5 text-amber-100"
-                : "border border-stone-700 bg-[#1d1916] px-3 py-1.5 text-stone-200 transition-colors hover:border-stone-500 hover:text-white"
+                ? "border border-[#1f1f1d] bg-[#1f1f1d] px-3 py-1.5 text-white shadow-[inset_0_-2px_0_#c44b37]"
+                : "border border-[#d6d0c5] bg-white px-3 py-1.5 text-[#33312e] transition-all hover:border-[#c44b37] hover:bg-[#fff8f5] hover:text-[#8a2f22]"
             }
           >
             {page}
@@ -107,8 +107,8 @@ function AdminPagination({
           aria-disabled={currentPage >= totalPages}
           className={
             currentPage >= totalPages
-              ? "border border-stone-800 bg-[#171310] px-3 py-1.5 text-stone-600 pointer-events-none"
-              : "border border-stone-700 bg-[#1d1916] px-3 py-1.5 text-stone-200 transition-colors hover:border-stone-500 hover:text-white"
+              ? "border border-[#e3ded6] bg-[#f2efe8] px-3 py-1.5 text-[#bdb6aa] pointer-events-none"
+              : "border border-[#d6d0c5] bg-white px-3 py-1.5 text-[#33312e] transition-all hover:border-[#c44b37] hover:bg-[#fff8f5] hover:text-[#8a2f22]"
           }
         >
           下一页
@@ -136,22 +136,22 @@ export function AdminDataGrid({
   searchParams,
 }: AdminDataGridProps) {
   return (
-    <section className="border border-stone-700 bg-[#221d18] shadow-[0_1px_0_rgba(255,255,255,0.03)_inset]">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-700 px-5 py-4">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.24em] text-stone-300">
+    <section className="border border-[#d6d0c5] bg-white shadow-[0_16px_40px_rgba(28,24,20,0.05)]">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ded8cf] bg-[#f7f5f0] px-5 py-4">
+        <h2 className="text-sm font-semibold uppercase tracking-[0.24em] text-[#222222]">
           {title}
         </h2>
         {hint ? (
-          <div className="text-xs uppercase tracking-[0.2em] text-stone-500">
+          <div className="text-xs uppercase tracking-[0.2em] text-[#8a8276]">
             {hint}
           </div>
         ) : null}
       </div>
 
-      {filters ? <div className="border-b border-stone-700 px-5 py-4">{filters}</div> : null}
+      {filters ? <div className="border-b border-[#ded8cf] px-5 py-4">{filters}</div> : null}
 
       {bulkActions ? (
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-700 bg-[#1b1612] px-5 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ded8cf] bg-[#fbfaf7] px-5 py-3">
           {bulkActions}
         </div>
       ) : null}
@@ -160,12 +160,12 @@ export function AdminDataGrid({
         <>
           <div id={gridId} className="overflow-x-auto">
             <table className="min-w-full border-collapse text-left text-sm">
-              <thead className="bg-[#1b1612] text-stone-300">
+              <thead className="bg-[#f2efe8] text-[#33312e]">
                 <tr>
                   {columns.map((column) => (
                     <th
                       key={column.label}
-                      className={`border-b border-stone-800 px-5 py-3 font-medium ${column.className ?? ""}`}
+                      className={`border-b border-[#ded8cf] px-5 py-3 font-medium ${column.className ?? ""}`}
                     >
                       {column.label}
                     </th>
@@ -186,7 +186,7 @@ export function AdminDataGrid({
           />
         </>
       ) : (
-        <div className="px-5 py-8 text-sm leading-7 text-stone-400">{emptyText}</div>
+        <div className="px-5 py-8 text-sm leading-7 text-[#6d665d]">{emptyText}</div>
       )}
     </section>
   );

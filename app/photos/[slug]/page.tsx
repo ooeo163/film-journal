@@ -33,10 +33,11 @@ export default async function PhotoDetailPage({
       />
       <div className="fixed inset-0 bg-[linear-gradient(90deg,rgba(9,8,7,0.9)_0%,rgba(13,11,9,0.82)_36%,rgba(14,12,10,0.76)_65%,rgba(10,9,8,0.88)_100%)]" />
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(7,6,5,0.28)_58%,rgba(5,4,4,0.74)_100%)]" />
+      <div className="page-bg-soft-light fixed inset-0" />
 
-      <div className="relative z-10 px-6 py-28">
-        <div className="mx-auto flex w-full max-w-[1480px] flex-col gap-10">
-          <section className="grid gap-8 border-b border-stone-700/70 pb-10 lg:grid-cols-[1fr_0.9fr]">
+      <div className="relative z-10 px-6 pb-14 pt-5">
+        <div className="mx-auto flex w-full max-w-[1480px] flex-col gap-4">
+          <section className="grid gap-4 border-b border-stone-700/70 pb-4 lg:grid-cols-[1fr_0.9fr]">
             <div className="space-y-4">
               <p className="text-xs uppercase tracking-[0.45em] text-stone-500">
                 Photo Detail

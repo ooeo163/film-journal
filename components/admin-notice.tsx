@@ -11,8 +11,8 @@ export function AdminNotice({
 }: AdminNoticeProps) {
   const styles =
     tone === "warning"
-      ? "border-amber-700/40 bg-amber-950/20 text-amber-100"
-      : "border-emerald-700/40 bg-emerald-950/20 text-emerald-100";
+      ? "border-[#d9b35f] bg-[#fff8e6] text-[#6b4c00]"
+      : "border-[#b8d7c0] bg-[#f1faf3] text-[#1f5d30]";
 
   return (
     <section className={`border px-5 py-4 text-sm leading-7 ${styles}`}>
