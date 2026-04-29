@@ -258,16 +258,6 @@ npm run dedupe:local-imports
 
 如果数据库里还没有用户，需要先插入一条 `User` 记录。
 
-## Development Workflow
-
-当前比较推荐的开发顺序：
-
-1. 完成功能
-2. 本地验证页面
-3. 运行 `npm run lint`
-4. 运行 `npm run build`
-5. 再提交 Git
-
 ## Known Limitations
 
 当前还存在这些已知限制：
@@ -278,19 +268,6 @@ npm run dedupe:local-imports
 - 删除当前仍以硬删除为主
 - 图片还没有缩略图 / 中图 / 原图多尺寸体系
 - 当前仍使用本地文件存储，尚未切腾讯云 COS
-
-## Next Steps
-
-下一步建议优先继续这些方向：
-
-1. 后台 Grid 增加批量发布 / 下架
-2. 后台 Grid 增加排序
-3. 增加软删除与回收站
-4. 增加操作日志
-5. 升级正式登录认证
-6. 增加图片多尺寸处理
-7. 抽象存储层并接入腾讯云 COS
-8. 完成 Linux / Nginx / HTTPS 部署链路
 
 ## Repository
 
