@@ -16,7 +16,6 @@ type AdminNewPhotoFormProps = {
 
 const errorMessages: Record<string, string> = {
   "missing-file": "请先选择要上传的图片文件。",
-  "missing-title": "请先填写照片标题。",
   "Unsupported file type": "当前只支持 jpg、png、webp、gif 图片。",
   "create-failed": "创建照片失败，请稍后再试。",
 };
@@ -79,13 +78,14 @@ export function AdminNewPhotoForm({
       <div className="grid gap-4 md:grid-cols-2">
         <label className="space-y-2 text-sm text-[#33312e]">
           <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            标题
+            图片文件
           </span>
           <input
-            name="title"
+            type="file"
+            name="file"
             required
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all placeholder:text-[#a29a8f] hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
-            placeholder="输入照片标题"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-[7px] text-[#33312e] file:mr-3 file:border file:border-[#d6d0c5] file:bg-white file:px-3 file:py-1.5 file:text-[#33312e]"
           />
         </label>
 
@@ -106,102 +106,17 @@ export function AdminNewPhotoForm({
             ))}
           </select>
         </label>
-
-        <label className="space-y-2 text-sm text-[#33312e]">
-          <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            自定义 slug
-          </span>
-          <input
-            name="slug"
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all placeholder:text-[#a29a8f] hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
-            placeholder="留空则按标题生成"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-[#33312e] md:col-span-2">
-          <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            描述
-          </span>
-          <textarea
-            name="description"
-            rows={4}
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all placeholder:text-[#a29a8f] hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
-            placeholder="输入照片描述"
-          />
-        </label>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <label className="space-y-2 text-sm text-[#33312e]">
-          <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            地点
-          </span>
-          <input
-            name="location"
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-[#33312e]">
-          <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            相机
-          </span>
-          <input
-            name="camera"
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-[#33312e]">
-          <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            镜头
-          </span>
-          <input
-            name="lens"
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-[#33312e]">
-          <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            胶卷
-          </span>
-          <input
-            name="filmStock"
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
-          />
-        </label>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-[1fr_220px]">
-        <label className="space-y-2 text-sm text-[#33312e]">
-          <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            图片文件
-          </span>
-          <input
-            type="file"
-            name="file"
-            required
-            accept="image/jpeg,image/png,image/webp,image/gif"
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-[7px] text-[#33312e] file:mr-3 file:border file:border-[#d6d0c5] file:bg-white file:px-3 file:py-1.5 file:text-[#33312e]"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-[#33312e]">
-          <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
-            拍摄日期
-          </span>
-          <input
-            type="date"
-            name="shotAt"
-            className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
-          />
-        </label>
-      </div>
-
-      <label className="flex items-center gap-3 text-sm text-[#33312e]">
-        <input type="checkbox" name="isPublished" className="h-4 w-4" />
-        <span>创建后立即发布</span>
+      <label className="space-y-2 text-sm text-[#33312e]">
+        <span className="block text-xs uppercase tracking-[0.2em] text-[#8a8276]">
+          自定义 slug（可选）
+        </span>
+        <input
+          name="slug"
+          className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-2 text-[#111111] outline-none transition-all placeholder:text-[#a29a8f] hover:border-[#b8afa2] focus:border-[#c44b37] focus:bg-white focus:shadow-[0_0_0_3px_rgba(196,75,55,0.10)]"
+          placeholder="留空则按文件名生成"
+        />
       </label>
 
       <div className="flex flex-wrap items-center gap-3 border-t border-[#e3ded6] pt-5">
@@ -210,10 +125,10 @@ export function AdminNewPhotoForm({
           disabled={isSubmitting}
           className="border border-[#1f1f1d] bg-[#1f1f1d] px-4 py-2 text-sm text-white shadow-[0_10px_22px_rgba(31,31,29,0.14)] transition-all hover:border-[#c44b37] hover:bg-[#2c2925] hover:shadow-[0_14px_30px_rgba(31,31,29,0.18)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isSubmitting ? "上传中..." : "上传并创建照片"}
+          {isSubmitting ? "上传中..." : "上传照片"}
         </button>
         <p className="text-sm text-[#8a8276]">
-          当前会把图片保存到 `storage/local-media/photos-manual/...`
+          上传后即可在前台查看。
         </p>
       </div>
     </form>

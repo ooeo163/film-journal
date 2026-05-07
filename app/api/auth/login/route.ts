@@ -1,22 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-
-const connectionString = process.env.DATABASE_URL;
-
-if (!connectionString) {
-  throw new Error("DATABASE_URL is not defined.");
-}
-
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString }),
-});
+import { prisma } from "@/lib/prisma";
+import { verifyPassword } from "@/lib/password";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const identifier =
     typeof formData.get("identifier") === "string"
       ? String(formData.get("identifier")).trim()
+      : "";
+  const password =
+    typeof formData.get("password") === "string"
+      ? String(formData.get("password"))
       : "";
   const redirectTo =
     typeof formData.get("redirectTo") === "string" && formData.get("redirectTo")
@@ -32,10 +26,18 @@ export async function POST(request: NextRequest) {
       })
     : null;
 
-  if (!user) {
+  if (!user || !user.password) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirectTo", redirectTo);
     loginUrl.searchParams.set("error", "user-not-found");
+    return NextResponse.redirect(loginUrl);
+  }
+
+  const valid = await verifyPassword(password, user.password);
+  if (!valid) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirectTo", redirectTo);
+    loginUrl.searchParams.set("error", "wrong-password");
     return NextResponse.redirect(loginUrl);
   }
 
@@ -53,6 +55,12 @@ export async function POST(request: NextRequest) {
     maxAge: 60 * 60 * 24 * 7,
   });
   response.cookies.set("fj_user_name", user.displayName, {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+  response.cookies.set("fj_user_role", user.role, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

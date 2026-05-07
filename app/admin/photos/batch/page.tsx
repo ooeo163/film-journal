@@ -4,9 +4,6 @@ import { AdminBatchPhotoForm } from "@/components/admin-batch-photo-form";
 
 export default async function AdminBatchPhotosPage() {
   const albums = await prisma.album.findMany({
-    where: {
-      isPublished: true,
-    },
     orderBy: {
       createdAt: "desc",
     },

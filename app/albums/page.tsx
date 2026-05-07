@@ -1,10 +1,16 @@
 import { AlbumCoverGrid } from "@/components/album-cover-grid";
+import { CreateAlbumButton } from "@/components/create-album-button";
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 
 export default async function AlbumsPage() {
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("fj_user_id")?.value;
+
   const albums = await prisma.album.findMany({
     where: {
       isPublished: true,
+      creatorId: userId || undefined,
     },
     orderBy: {
       createdAt: "desc",
@@ -42,8 +48,11 @@ export default async function AlbumsPage() {
                   相册列表
                 </h1>
               </div>
-              <div className="text-right text-xs uppercase tracking-[0.28em] text-stone-500">
-                {String(albums.length).padStart(2, "0")} Rolls
+              <div className="flex items-center gap-4">
+                <CreateAlbumButton />
+                <div className="text-right text-xs uppercase tracking-[0.28em] text-stone-500">
+                  {String(albums.length).padStart(2, "0")} Rolls
+                </div>
               </div>
             </div>
             <div className="mt-3 h-px bg-[linear-gradient(90deg,rgba(214,188,150,0.62),rgba(214,188,150,0.08),transparent)]" />

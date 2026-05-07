@@ -1,19 +1,37 @@
 import { prisma } from "@/lib/prisma";
 import { PhotoWall } from "@/components/photo-wall";
+import { UploadPhotoButton } from "@/components/upload-photo-button";
+import { cookies } from "next/headers";
 
 export default async function PhotosPage() {
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("fj_user_id")?.value;
+
   const photos = await prisma.photo.findMany({
     where: {
-      isPublished: true,
+      creatorId: userId || undefined,
     },
-    orderBy: [
-      {
-        shotAt: "desc",
-      },
-      {
-        createdAt: "desc",
-      },
-    ],
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      imageUrl: true,
+      thumbUrl: true,
+    },
+  });
+
+  const albums = await prisma.album.findMany({
+    where: {
+      creatorId: userId || undefined,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      title: true,
+    },
   });
 
   return (
@@ -37,11 +55,14 @@ export default async function PhotosPage() {
                   Photos
                 </p>
                 <h1 className="text-4xl font-semibold tracking-tight text-stone-50 md:text-5xl">
-                  胶片照片列表
+                  胶片照片
                 </h1>
               </div>
-              <div className="text-right text-xs uppercase tracking-[0.28em] text-stone-500">
-                {String(photos.length).padStart(2, "0")} Frames
+              <div className="flex items-center gap-4">
+                <UploadPhotoButton albums={albums} />
+                <div className="text-right text-xs uppercase tracking-[0.28em] text-stone-500">
+                  {String(photos.length).padStart(2, "0")} Frames
+                </div>
               </div>
             </div>
             <div className="mt-3 h-px bg-[linear-gradient(90deg,rgba(214,188,150,0.62),rgba(214,188,150,0.08),transparent)]" />
@@ -50,11 +71,8 @@ export default async function PhotosPage() {
           <PhotoWall
             photos={photos.map((photo) => ({
               id: photo.id,
-              title: photo.title,
               imageUrl: photo.imageUrl,
               thumbUrl: photo.thumbUrl,
-              camera: photo.camera,
-              filmStock: photo.filmStock,
             }))}
           />
         </div>

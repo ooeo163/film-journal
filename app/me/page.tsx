@@ -6,11 +6,7 @@ export default async function MePage() {
   const cookieStore = await cookies();
   const userName = cookieStore.get("fj_user_name")?.value || null;
   const [photoCount, albumCount] = await Promise.all([
-    prisma.photo.count({
-      where: {
-        isPublished: true,
-      },
-    }),
+    prisma.photo.count(),
     prisma.album.count({
       where: {
         isPublished: true,

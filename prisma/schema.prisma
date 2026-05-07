@@ -12,21 +12,15 @@ datasource db {
 }
 
 model Photo {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String?
-  imageUrl    String
-  thumbUrl    String?
-  shotAt      DateTime?
-  location    String?
-  camera      String?
-  lens        String?
-  filmStock   String?
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  albumLinks  AlbumPhoto[]
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  imageUrl   String
+  thumbUrl   String?
+  creatorId  String?
+  creator    User?  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  albumLinks AlbumPhoto[]
 }
 
 model Album {
@@ -38,6 +32,8 @@ model Album {
   sourceUrl     String?
   imageCount    Int          @default(0)
   isPublished   Boolean      @default(true)
+  creatorId     String?
+  creator       User?  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   photoLinks    AlbumPhoto[]
@@ -75,8 +71,11 @@ model User {
   username    String   @unique
   email       String   @unique
   displayName String
-  role        String   @default("admin")
+  password    String?
+  role        String   @default("user")
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  photos      Photo[]
+  albums      Album[]
 }

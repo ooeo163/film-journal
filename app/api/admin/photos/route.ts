@@ -4,6 +4,7 @@ import {
   sanitizeMediaSegment,
   saveUploadedLocalMedia,
 } from "@/lib/local-media-server";
+import { cookies } from "next/headers";
 
 async function ensureUniquePhotoSlug(baseSlug: string) {
   let candidate = baseSlug || "photo";
@@ -20,18 +21,13 @@ async function ensureUniquePhotoSlug(baseSlug: string) {
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const file = formData.get("file");
-  const title = String(formData.get("title") || "").trim();
   const customSlug = String(formData.get("slug") || "").trim();
   const albumId = String(formData.get("albumId") || "").trim();
-  const description = String(formData.get("description") || "").trim();
-  const location = String(formData.get("location") || "").trim();
-  const camera = String(formData.get("camera") || "").trim();
-  const lens = String(formData.get("lens") || "").trim();
-  const filmStock = String(formData.get("filmStock") || "").trim();
-  const shotAtValue = String(formData.get("shotAt") || "").trim();
-  const isPublished = formData.get("isPublished") === "on";
   const redirectTo =
     String(formData.get("redirectTo") || "").trim() || "/admin/photos";
+
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("fj_user_id")?.value;
 
   function buildRedirect(path: string, error?: string) {
     const url = new URL(path, request.url);
@@ -51,34 +47,19 @@ export async function POST(request: NextRequest) {
     return buildRedirect("/admin/photos/new", "missing-file");
   }
 
-  if (!title) {
-    if (request.headers.get("x-admin-form") === "1") {
-      return NextResponse.json({ error: "missing-title" }, { status: 400 });
-    }
-
-    return buildRedirect("/admin/photos/new", "missing-title");
-  }
-
   try {
     const upload = await saveUploadedLocalMedia(file, "photos-manual");
     const slug = await ensureUniquePhotoSlug(
-      sanitizeMediaSegment(customSlug || title),
+      sanitizeMediaSegment(customSlug || file.name.replace(/\.[^.]+$/, "")),
     );
 
     const photo = await prisma.$transaction(async (tx) => {
       const createdPhoto = await tx.photo.create({
         data: {
-          title,
           slug,
-          description: description || null,
           imageUrl: upload.url,
           thumbUrl: upload.url,
-          location: location || null,
-          camera: camera || null,
-          lens: lens || null,
-          filmStock: filmStock || null,
-          shotAt: shotAtValue ? new Date(shotAtValue) : null,
-          isPublished,
+          creatorId: userId || null,
         },
         select: {
           id: true,

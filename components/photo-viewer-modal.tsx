@@ -5,9 +5,7 @@ import { createPortal } from "react-dom";
 
 export type PhotoViewerItem = {
   id: string;
-  title: string;
   imageUrl: string;
-  subtitle?: string;
 };
 
 type PhotoViewerModalProps = {
@@ -94,13 +92,8 @@ export function PhotoViewerModal({
           <div className="flex min-h-[54px] items-center justify-between border-b border-stone-800/90 px-4 py-2 md:px-5">
             <div className="min-w-0 pr-4">
               <h3 className="truncate text-base font-semibold text-stone-50 md:text-lg">
-                {currentItem.title}
+                照片查看
               </h3>
-              {currentItem.subtitle ? (
-                <p className="mt-1 truncate text-xs text-stone-400">
-                  {currentItem.subtitle}
-                </p>
-              ) : null}
             </div>
 
             <button
@@ -136,7 +129,7 @@ export function PhotoViewerModal({
                 <div className="flex h-full w-full items-center justify-center rounded-[0.8rem] border border-stone-700/60 bg-[rgba(14,12,11,0.3)] p-1 md:p-2">
                   <img
                     src={currentItem.imageUrl}
-                    alt={currentItem.title}
+                    alt=""
                     loading="lazy"
                     decoding="async"
                     className="h-full max-w-full object-contain shadow-[0_20px_60px_rgba(0,0,0,0.35)]"

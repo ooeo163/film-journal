@@ -17,13 +17,21 @@ export function middleware(request: NextRequest) {
 
   const isLoggedIn = request.cookies.get("fj_session")?.value === "active";
 
-  if (isLoggedIn) {
-    return NextResponse.next();
+  if (!isLoggedIn) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirectTo", `${pathname}${search}`);
+    return NextResponse.redirect(loginUrl);
   }
 
-  const loginUrl = new URL("/login", request.url);
-  loginUrl.searchParams.set("redirectTo", `${pathname}${search}`);
-  return NextResponse.redirect(loginUrl);
+  const role = request.cookies.get("fj_user_role")?.value;
+
+  if (pathname === "/admin" || pathname.startsWith("/admin/users")) {
+    if (role !== "system_admin") {
+      return NextResponse.redirect(new URL("/admin/photos", request.url));
+    }
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {

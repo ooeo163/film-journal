@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
@@ -12,11 +13,13 @@ const navItems = [
 type SiteHeaderProps = {
   isLoggedIn: boolean;
   userName: string | null;
+  userRole: string | null;
 };
 
-export function SiteHeader({ isLoggedIn, userName }: SiteHeaderProps) {
+export function SiteHeader({ isLoggedIn, userName, userRole }: SiteHeaderProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isSystemAdmin = userRole === "system_admin";
 
   return (
     <header
@@ -88,12 +91,14 @@ export function SiteHeader({ isLoggedIn, userName }: SiteHeaderProps) {
                   >
                     账号设置
                   </a>
-                  <a
-                    href="/admin"
-                    className="block rounded-[0.9rem] px-4 py-3 text-sm text-stone-200 transition-colors hover:bg-[rgba(40,31,25,0.82)]"
-                  >
-                    后台入口
-                  </a>
+                  {isSystemAdmin ? (
+                    <Link
+                      href="/admin"
+                      className="block rounded-[0.9rem] px-4 py-3 text-sm text-stone-200 transition-colors hover:bg-[rgba(40,31,25,0.82)]"
+                    >
+                      系统管理
+                    </Link>
+                  ) : null}
                   <a
                     href="/api/auth/logout"
                     className="block rounded-[0.9rem] px-4 py-3 text-sm text-stone-200 transition-colors hover:bg-[rgba(40,31,25,0.82)]"

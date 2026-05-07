@@ -17,12 +17,13 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const isLoggedIn = cookieStore.get("fj_session")?.value === "active";
   const userName = cookieStore.get("fj_user_name")?.value || null;
+  const userRole = cookieStore.get("fj_user_role")?.value || null;
 
   return (
     <html lang="zh-CN" className="h-full antialiased">
       <body className="min-h-full bg-background text-foreground">
         <div className="flex min-h-full flex-col">
-          <SiteHeader isLoggedIn={isLoggedIn} userName={userName} />
+          <SiteHeader isLoggedIn={isLoggedIn} userName={userName} userRole={userRole} />
           <div className="flex-1">{children}</div>
           <SiteFooter />
         </div>

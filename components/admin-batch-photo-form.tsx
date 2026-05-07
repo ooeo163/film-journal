@@ -70,7 +70,7 @@ export function AdminBatchPhotoForm({ albums }: AdminBatchPhotoFormProps) {
         </div>
       ) : null}
 
-      <div className="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
+      <div className="grid gap-4 md:grid-cols-2">
         <label className="space-y-2 text-sm text-stone-300">
           <span className="block text-xs uppercase tracking-[0.2em] text-stone-500">
             批量选择图片
@@ -85,7 +85,7 @@ export function AdminBatchPhotoForm({ albums }: AdminBatchPhotoFormProps) {
             className="w-full border border-stone-700 bg-[#181411] px-3 py-[7px] text-stone-300 file:mr-3 file:border-0 file:bg-stone-800 file:px-3 file:py-1.5 file:text-stone-100"
           />
           <p className="text-sm text-stone-500">
-            当前已选择：{fileCount} 张。后端会逐张保存到项目自己的附件目录。
+            当前已选择：{fileCount} 张
           </p>
         </label>
 
@@ -108,89 +108,16 @@ export function AdminBatchPhotoForm({ albums }: AdminBatchPhotoFormProps) {
         </label>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <label className="space-y-2 text-sm text-stone-300">
-          <span className="block text-xs uppercase tracking-[0.2em] text-stone-500">
-            标题前缀
-          </span>
-          <input
-            name="titlePrefix"
-            className="w-full border border-stone-700 bg-[#181411] px-3 py-2 text-stone-100 outline-none transition-colors focus:border-stone-500"
-            placeholder="例如：春日街拍"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-stone-300">
-          <span className="block text-xs uppercase tracking-[0.2em] text-stone-500">
-            地点
-          </span>
-          <input
-            name="location"
-            className="w-full border border-stone-700 bg-[#181411] px-3 py-2 text-stone-100 outline-none transition-colors focus:border-stone-500"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-stone-300">
-          <span className="block text-xs uppercase tracking-[0.2em] text-stone-500">
-            相机
-          </span>
-          <input
-            name="camera"
-            className="w-full border border-stone-700 bg-[#181411] px-3 py-2 text-stone-100 outline-none transition-colors focus:border-stone-500"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-stone-300">
-          <span className="block text-xs uppercase tracking-[0.2em] text-stone-500">
-            胶卷
-          </span>
-          <input
-            name="filmStock"
-            className="w-full border border-stone-700 bg-[#181411] px-3 py-2 text-stone-100 outline-none transition-colors focus:border-stone-500"
-          />
-        </label>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-[220px_1fr]">
-        <label className="space-y-2 text-sm text-stone-300">
-          <span className="block text-xs uppercase tracking-[0.2em] text-stone-500">
-            统一拍摄日期
-          </span>
-          <input
-            type="date"
-            name="shotAt"
-            className="w-full border border-stone-700 bg-[#181411] px-3 py-2 text-stone-100 outline-none transition-colors focus:border-stone-500"
-          />
-        </label>
-
-        <label className="space-y-2 text-sm text-stone-300">
-          <span className="block text-xs uppercase tracking-[0.2em] text-stone-500">
-            统一描述
-          </span>
-          <textarea
-            name="description"
-            rows={3}
-            className="w-full border border-stone-700 bg-[#181411] px-3 py-2 text-stone-100 outline-none transition-colors focus:border-stone-500"
-            placeholder="可选，会批量写入每张照片的描述"
-          />
-        </label>
-      </div>
-
-      <label className="flex items-center gap-3 text-sm text-stone-300">
-        <input type="checkbox" name="isPublished" className="h-4 w-4" />
-        <span>批量创建后立即发布</span>
-      </label>
-
       <div className="flex flex-wrap items-center gap-3 border-t border-stone-700 pt-5">
         <button
           type="submit"
           disabled={isSubmitting}
           className="border border-stone-600 bg-[#2a241f] px-4 py-2 text-sm text-stone-100 transition-colors hover:border-stone-400 hover:bg-[#342c26] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isSubmitting ? "批量上传中..." : "批量上传并创建照片"}
+          {isSubmitting ? "批量上传中..." : "批量上传照片"}
         </button>
         <p className="text-sm text-stone-500">
-          标题默认按文件名生成；如果填写“标题前缀”，会自动按序号拼接。
+          上传后即可在前台查看。
         </p>
       </div>
     </form>

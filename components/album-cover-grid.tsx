@@ -66,8 +66,8 @@ export function AlbumCoverGrid({ albums }: AlbumCoverGridProps) {
           </Link>
         ))
       ) : (
-        <div className="rounded-[1.25rem] border border-dashed border-stone-600/70 bg-[rgba(28,22,18,0.82)] p-8 text-base leading-8 text-stone-300 backdrop-blur-[2px] sm:col-span-2 lg:col-span-3 2xl:col-span-4">
-          当前还没有已发布相册。
+        <div className="py-16 text-center text-sm text-stone-500 sm:col-span-2 lg:col-span-3 2xl:col-span-4">
+          还没有相册，点击上方「创建相册」开始吧。
         </div>
       )}
     </section>

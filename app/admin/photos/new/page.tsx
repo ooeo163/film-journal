@@ -43,7 +43,7 @@ export default async function AdminNewPhotoPage({
                 新建照片
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-[#5f584f]">
-                这一页把“上传文件”和“创建照片记录”合并在一起。当前会先把文件保存到项目自己的本地附件目录，后面再平滑切到 COS。
+                上传照片文件，可选择挂入相册。上传后即可在前台查看。
               </p>
             </div>
 

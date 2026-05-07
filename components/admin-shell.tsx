@@ -1,12 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-
-const adminNavItems = [
-  { href: "/admin", label: "总览" },
-  { href: "/admin/photos", label: "照片管理" },
-  { href: "/admin/albums", label: "相册管理" },
-  { href: "/admin/media", label: "导入与上传" },
-];
+import { cookies } from "next/headers";
 
 type AdminShellProps = {
   title: string;
@@ -18,7 +12,7 @@ type AdminShellProps = {
   children: ReactNode;
 };
 
-export function AdminShell({
+export async function AdminShell({
   title,
   description,
   currentPath,
@@ -27,6 +21,24 @@ export function AdminShell({
   notice,
   children,
 }: AdminShellProps) {
+  const cookieStore = await cookies();
+  const userRole = cookieStore.get("fj_user_role")?.value;
+  const isSystemAdmin = userRole === "system_admin";
+
+  const adminNavItems = isSystemAdmin
+    ? [
+        { href: "/admin", label: "系统管理" },
+        { href: "/admin/users", label: "用户管理" },
+        { href: "/admin/photos", label: "照片管理" },
+        { href: "/admin/albums", label: "相册管理" },
+        { href: "/admin/media", label: "导入与上传" },
+      ]
+    : [
+        { href: "/admin/photos", label: "照片管理" },
+        { href: "/admin/albums", label: "相册管理" },
+        { href: "/admin/media", label: "导入与上传" },
+      ];
+
   return (
     <main className="admin-light min-h-screen bg-[linear-gradient(180deg,#f7f5f0_0%,#eeebe3_100%)] px-4 pb-10 pt-18 text-[#1f1f1d] md:px-6">
       <div className="mx-auto grid max-w-[1480px] gap-5 lg:grid-cols-[240px_minmax(0,1fr)]">
@@ -35,7 +47,9 @@ export function AdminShell({
             <p className="text-[11px] uppercase tracking-[0.32em] text-[#8a8276]">
               Admin Console
             </p>
-            <p className="mt-2 text-lg font-semibold text-[#1f1f1d]">后台管理</p>
+            <p className="mt-2 text-lg font-semibold text-[#1f1f1d]">
+              {isSystemAdmin ? "系统管理" : "后台管理"}
+            </p>
           </div>
 
           <nav className="p-2">

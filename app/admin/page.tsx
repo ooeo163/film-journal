@@ -4,29 +4,25 @@ import { prisma } from "@/lib/prisma";
 
 const adminLinks = [
   {
-    title: "内容总览",
-    description: "先从公开相册入口查看内容呈现，后续再接审核和发布状态。",
-    href: "/albums",
+    title: "用户管理",
+    description: "管理系统用户账号，注册新用户。",
+    href: "/admin/users",
   },
   {
-    title: "管理照片",
-    description: "继续查看和整理站点中的真实照片数据。",
+    title: "照片管理",
+    description: "查看和整理站点中的照片数据。",
     href: "/admin/photos",
   },
   {
-    title: "管理相册",
-    description: "进入相册列表，后续在这里接排序、封面与审核能力。",
+    title: "相册管理",
+    description: "管理相册，排序、封面与审核。",
     href: "/admin/albums",
   },
 ];
 
 export default async function AdminPage() {
   const [photoCount, albumCount, journalCount, userCount] = await Promise.all([
-    prisma.photo.count({
-      where: {
-        isPublished: true,
-      },
-    }),
+    prisma.photo.count(),
     prisma.album.count({
       where: {
         isPublished: true,
@@ -46,16 +42,16 @@ export default async function AdminPage() {
 
   return (
     <AdminShell
-      title="后台入口"
-      description="后台先统一成更清晰的管理框架：左侧导航、顶部说明、关键统计和模块入口。后面上传、审核、日志和系统设置都会继续挂在这条主线上。"
+      title="系统管理"
+      description="系统管理员后台，管理用户和内容。"
       currentPath="/admin"
       stats={
         <>
           {[
-            { label: "已发布照片", value: photoCount },
+            { label: "照片总数", value: photoCount },
             { label: "已发布相册", value: albumCount },
             { label: "已发布文章", value: journalCount },
-            { label: "可用账号", value: userCount },
+            { label: "用户账号", value: userCount },
           ].map((item) => (
             <article
               key={item.label}
@@ -79,11 +75,11 @@ export default async function AdminPage() {
           </h2>
         </div>
 
-        <div className="grid gap-0 md:grid-cols-2">
+        <div className="grid gap-0 md:grid-cols-3">
           {adminLinks.map((item) => (
             <article
               key={item.href}
-              className="border-t border-[#ded8cf] bg-white p-5 transition-colors hover:bg-[#f7f5f0] md:border-r md:border-r-[#ded8cf] md:[&:nth-child(2n)]:border-r-0"
+              className="border-t border-[#ded8cf] bg-white p-5 transition-colors hover:bg-[#f7f5f0] md:border-r md:border-r-[#ded8cf] md:[&:nth-child(3n)]:border-r-0"
             >
               <p className="text-[11px] uppercase tracking-[0.24em] text-[#8a8276]">
                 Module
