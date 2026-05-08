@@ -67,6 +67,10 @@ export default async function AlbumDetailPage({
     notFound();
   }
 
+  const currentIndex = albumList.findIndex((a) => a.slug === album.slug);
+  const nextAlbum = albumList[(currentIndex + 1) % albumList.length];
+  const hasNext = albumList.length > 1 && nextAlbum;
+
   return (
     <main className="relative text-stone-100">
       <div
@@ -87,13 +91,13 @@ export default async function AlbumDetailPage({
             <section className="rounded-[1.4rem] border border-stone-700/80 bg-[rgba(17,16,15,0.84)] p-4 shadow-[0_18px_50px_rgba(17,16,15,0.22)] backdrop-blur-[2px] sm:rounded-[2rem] sm:p-8">
               <div className="mb-5 grid gap-3 border-b border-stone-700/70 pb-4 sm:mb-6 sm:flex sm:items-end sm:justify-between sm:gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.35em] text-stone-500">
+                  <p className="text-xs uppercase tracking-[0.35em] text-stone-500" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
                     Film Strip
                   </p>
                   <h1 className="mt-2 text-2xl font-semibold text-stone-50 sm:text-3xl">
                     {album.title}
                   </h1>
-                  <p className="mt-2 text-sm text-stone-400">
+                  <p className="mt-2 text-sm text-stone-400" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
                     Contact Sheet · {album.photoLinks.length} photos
                   </p>
                 </div>
@@ -118,6 +122,30 @@ export default async function AlbumDetailPage({
               />
             </section>
           </section>
+
+          {hasNext ? (
+            <a
+              href={`/albums/${nextAlbum.slug}`}
+              className="group flex items-center justify-between rounded-[1.4rem] border border-stone-700/60 bg-[rgba(17,16,15,0.72)] px-6 py-5 backdrop-blur-[1px] transition-all duration-300 hover:border-stone-600/80 hover:bg-[rgba(25,21,17,0.88)] sm:rounded-[2rem] sm:px-8 sm:py-6"
+            >
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] uppercase tracking-[0.4em] text-stone-600" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
+                  Next Album
+                </p>
+                <p className="mt-2 truncate text-lg text-stone-200 transition-colors group-hover:text-white sm:text-xl">
+                  {nextAlbum.title}
+                </p>
+                <p className="mt-1 text-xs text-stone-500">
+                  {nextAlbum.imageCount} photos
+                </p>
+              </div>
+              <div className="ml-4 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-stone-700/60 text-stone-500 transition-all duration-300 group-hover:border-stone-500 group-hover:text-stone-300 group-hover:translate-x-1 sm:ml-6 sm:h-12 sm:w-12">
+                <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 sm:h-5 sm:w-5" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+          ) : null}
         </div>
       </div>
     </main>

@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import { Cormorant_Garamond } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Film Journal",
@@ -20,7 +28,7 @@ export default async function RootLayout({
   const userRole = cookieStore.get("fj_user_role")?.value || null;
 
   return (
-    <html lang="zh-CN" className="h-full antialiased">
+    <html lang="zh-CN" className={`h-full antialiased ${cormorant.variable}`}>
       <body className="min-h-full bg-background text-foreground">
         <div className="flex min-h-full flex-col">
           <SiteHeader isLoggedIn={isLoggedIn} userName={userName} userRole={userRole} />

@@ -43,7 +43,7 @@ export function AlbumCoverGrid({ albums }: AlbumCoverGridProps) {
               <h2 className="truncate text-sm font-medium text-stone-100 transition-colors group-hover:text-white">
                 {album.title}
               </h2>
-              <p className="mt-1 text-[11px] text-stone-500">
+              <p className="mt-1 text-[11px] text-stone-500" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
                 {album.photoCount} photos
               </p>
             </div>

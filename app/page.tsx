@@ -15,10 +15,10 @@ export default function Home() {
           <div className="relative mx-auto flex min-h-screen w-full max-w-[1480px] flex-col justify-between px-5 pb-10 pt-32 md:px-8 xl:px-10">
             <div className="grid flex-1 items-center gap-10 lg:grid-cols-[0.98fr_1.02fr]">
               <div className="home-copy-enter max-w-[760px] space-y-7">
-                <p className="home-stagger-1 text-xs uppercase tracking-[0.45em] text-stone-400">
+                <p className="home-stagger-1 text-xs uppercase tracking-[0.45em] text-stone-400" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
                   Capturing Time, Preserving Stories.
                 </p>
-                <h1 className="home-stagger-2 font-serif text-5xl leading-[0.92] tracking-[0.08em] text-[#e9ddca] md:text-7xl">
+                <h1 className="home-stagger-2 text-4xl leading-[0.92] tracking-[0.08em] text-[#e9ddca] sm:text-5xl md:text-7xl" style={{ fontFamily: "var(--font-display), Georgia, serif", fontWeight: 300 }}>
                   PHOTOGRAPHS
                   <br />
                   AS MEMORIES
@@ -30,6 +30,7 @@ export default function Home() {
                 <div className="home-stagger-4 pt-4">
                   <Link
                     className="group inline-flex origin-left items-center gap-4 border-b border-stone-400 pb-3 text-sm uppercase tracking-[0.35em] text-stone-200 transition duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:border-stone-100 hover:text-white hover:brightness-125"
+                    style={{ fontFamily: "var(--font-display), Georgia, serif" }}
                     href="/albums"
                   >
                     Explore Albums
@@ -45,10 +46,10 @@ export default function Home() {
 
               <div className="hidden lg:flex lg:justify-end">
                 <div className="home-quote-enter w-full max-w-[420px] rounded-[1.75rem] border border-stone-700/70 bg-[rgba(11,10,9,0.34)] p-7 backdrop-blur-[2px]">
-                  <p className="text-sm leading-8 text-stone-300">
+                  <p className="text-sm leading-8 text-stone-300" style={{ fontFamily: "var(--font-display), Georgia, serif", fontWeight: 300 }}>
                     Photography is a way of feeling, touching, of loving. What you have caught on film is captured forever.
                   </p>
-                  <p className="mt-6 text-sm uppercase tracking-[0.3em] text-stone-500">
+                  <p className="mt-6 text-sm uppercase tracking-[0.3em] text-stone-500" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
                     Film Journal
                   </p>
                 </div>
@@ -57,9 +58,9 @@ export default function Home() {
 
             <div className="home-footer-enter flex items-end justify-between gap-6 pt-12 text-stone-500">
               <div className="hidden md:block">
-                <p className="text-xs uppercase tracking-[0.4em]">Scroll To Explore</p>
+                <p className="text-xs uppercase tracking-[0.4em]" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>Scroll To Explore</p>
               </div>
-              <div className="text-right text-xs uppercase tracking-[0.35em]">
+              <div className="text-right text-xs uppercase tracking-[0.35em]" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
                 Archive of photographs and albums
               </div>
             </div>

@@ -50,7 +50,7 @@ function AlbumLink({
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+        <p className="text-xs uppercase tracking-[0.3em] text-stone-500" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
           {String(item.imageCount).padStart(2, "0")} Frames
         </p>
         <p className="mt-1 line-clamp-2 text-sm leading-5">{item.title}</p>
@@ -69,7 +69,7 @@ function AlbumSwitcherContent({
   return (
     <>
       <div className="border-b border-stone-700/70 pb-4">
-        <p className="text-xs uppercase tracking-[0.35em] text-stone-500">
+        <p className="text-xs uppercase tracking-[0.35em] text-stone-500" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
           Albums
         </p>
         <h2 className="mt-2 text-2xl font-semibold text-stone-50">
@@ -108,7 +108,7 @@ export function AlbumSwitcher({ albums, activeSlug }: AlbumSwitcherProps) {
           aria-expanded={open}
         >
           <span>相册切换</span>
-          <span className="text-xs uppercase tracking-[0.25em] text-stone-500">
+          <span className="text-xs uppercase tracking-[0.25em] text-stone-500" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
             Albums
           </span>
         </button>

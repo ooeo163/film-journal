@@ -71,7 +71,7 @@ export default async function PhotosPage({ searchParams }: PhotosPageProps) {
           <section className="border border-stone-700/60 bg-[rgba(18,15,13,0.38)] px-4 py-3 shadow-[0_10px_32px_rgba(0,0,0,0.14)] backdrop-blur-[1px]">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="space-y-1.5">
-                <p className="text-xs uppercase tracking-[0.45em] text-stone-500">
+                <p className="text-xs uppercase tracking-[0.45em] text-stone-500" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
                   Photos
                 </p>
                 <h1 className="text-4xl font-semibold tracking-tight text-stone-50 md:text-5xl">
@@ -80,7 +80,7 @@ export default async function PhotosPage({ searchParams }: PhotosPageProps) {
               </div>
               <div className="flex items-center gap-4">
                 <UploadPhotoButton albums={albums} />
-                <div className="text-right text-xs uppercase tracking-[0.28em] text-stone-500">
+                <div className="text-right text-xs uppercase tracking-[0.28em] text-stone-500" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
                   {String(totalCount).padStart(2, "0")} Frames
                 </div>
               </div>
