@@ -40,6 +40,8 @@ export async function POST(request: NextRequest) {
       imageUrl: string;
     }> = [];
 
+    let firstThumbUrl: string | null = null;
+
     for (const file of files) {
       const upload = await saveUploadedLocalMedia(file, "photos-batch");
       const baseName = path.parse(file.name).name.replace(/[_-]+/g, " ").trim() || "photo";
@@ -47,11 +49,15 @@ export async function POST(request: NextRequest) {
         sanitizeMediaSegment(baseName),
       );
 
+      if (!firstThumbUrl) {
+        firstThumbUrl = upload.thumbUrl;
+      }
+
       const photo = await prisma.photo.create({
         data: {
           slug,
           imageUrl: upload.url,
-          thumbUrl: upload.url,
+          thumbUrl: upload.thumbUrl,
           creatorId: userId || null,
         },
         select: {
@@ -100,7 +106,7 @@ export async function POST(request: NextRequest) {
             data: {
               imageCount: selectedAlbum.imageCount + createdPhotos.length,
               coverImageUrl:
-                selectedAlbum.coverImageUrl || createdPhotos[0].imageUrl,
+                selectedAlbum.coverImageUrl || firstThumbUrl,
             },
           });
         }

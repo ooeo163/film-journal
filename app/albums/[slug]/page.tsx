@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { AlbumFilmStrip } from "@/components/album-film-strip";
 import { AlbumSwitcher } from "@/components/album-switcher";
+import { AlbumUploadButton } from "@/components/album-upload-button";
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 
 type AlbumDetailPageProps = {
   params: Promise<{
@@ -13,8 +15,10 @@ export default async function AlbumDetailPage({
   params,
 }: AlbumDetailPageProps) {
   const { slug } = await params;
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("fj_user_id")?.value;
 
-  const [album, albumList] = await Promise.all([
+  const [album, albumList, userAlbums] = await Promise.all([
     prisma.album.findUnique({
       where: {
         slug,
@@ -42,6 +46,19 @@ export default async function AlbumDetailPage({
         title: true,
         slug: true,
         imageCount: true,
+        coverImageUrl: true,
+      },
+    }),
+    prisma.album.findMany({
+      where: {
+        creatorId: userId || undefined,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        title: true,
       },
     }),
   ]);
@@ -80,7 +97,13 @@ export default async function AlbumDetailPage({
                     Contact Sheet · {album.photoLinks.length} photos
                   </p>
                 </div>
-                <p className="text-sm text-stone-400">点击任意片窗全屏查看</p>
+                <div className="flex items-center gap-4">
+                  <AlbumUploadButton
+                    albumId={album.id}
+                    albums={userAlbums}
+                  />
+                  <p className="text-sm text-stone-400">点击任意片窗全屏查看</p>
+                </div>
               </div>
 
               <AlbumFilmStrip

@@ -11,12 +11,13 @@ type AlbumOption = {
 
 type UploadPhotoModalProps = {
   albums: AlbumOption[];
+  defaultAlbumId?: string;
   onClose: () => void;
 };
 
 const BATCH_SIZE = 5;
 
-export function UploadPhotoModal({ albums, onClose }: UploadPhotoModalProps) {
+export function UploadPhotoModal({ albums, defaultAlbumId, onClose }: UploadPhotoModalProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -144,6 +145,7 @@ export function UploadPhotoModal({ albums, onClose }: UploadPhotoModalProps) {
             <span className="text-sm text-stone-400">选择相册（可选）</span>
             <select
               name="albumId"
+              defaultValue={defaultAlbumId || ""}
               className="rounded-[1rem] border border-stone-700/80 bg-[rgba(28,22,18,0.76)] px-4 py-3 text-stone-100 outline-none transition-colors focus:border-stone-500"
             >
               <option value="">不添加到相册</option>

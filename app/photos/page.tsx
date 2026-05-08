@@ -1,25 +1,45 @@
 import { prisma } from "@/lib/prisma";
 import { PhotoWall } from "@/components/photo-wall";
 import { UploadPhotoButton } from "@/components/upload-photo-button";
+import { PhotoPagination } from "@/components/photo-pagination";
 import { cookies } from "next/headers";
 
-export default async function PhotosPage() {
+const PAGE_SIZE = 24;
+
+type PhotosPageProps = {
+  searchParams?: Promise<{
+    page?: string;
+  }>;
+};
+
+export default async function PhotosPage({ searchParams }: PhotosPageProps) {
   const cookieStore = await cookies();
   const userId = cookieStore.get("fj_user_id")?.value;
+  const params = searchParams ? await searchParams : undefined;
+  const currentPage = Math.max(1, Number(params?.page || "1") || 1);
 
-  const photos = await prisma.photo.findMany({
-    where: {
-      creatorId: userId || undefined,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    select: {
-      id: true,
-      imageUrl: true,
-      thumbUrl: true,
-    },
-  });
+  const where = {
+    creatorId: userId || undefined,
+  };
+
+  const [photos, totalCount] = await Promise.all([
+    prisma.photo.findMany({
+      where,
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        imageUrl: true,
+        thumbUrl: true,
+      },
+      skip: (currentPage - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+    prisma.photo.count({ where }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
 
   const albums = await prisma.album.findMany({
     where: {
@@ -61,7 +81,7 @@ export default async function PhotosPage() {
               <div className="flex items-center gap-4">
                 <UploadPhotoButton albums={albums} />
                 <div className="text-right text-xs uppercase tracking-[0.28em] text-stone-500">
-                  {String(photos.length).padStart(2, "0")} Frames
+                  {String(totalCount).padStart(2, "0")} Frames
                 </div>
               </div>
             </div>
@@ -75,6 +95,13 @@ export default async function PhotosPage() {
               thumbUrl: photo.thumbUrl,
             }))}
           />
+
+          {totalPages > 1 && (
+            <PhotoPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+            />
+          )}
         </div>
       </div>
     </main>

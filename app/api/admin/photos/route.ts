@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         data: {
           slug,
           imageUrl: upload.url,
-          thumbUrl: upload.url,
+          thumbUrl: upload.thumbUrl,
           creatorId: userId || null,
         },
         select: {
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
             },
             data: {
               imageCount: selectedAlbum.imageCount + 1,
-              coverImageUrl: selectedAlbum.coverImageUrl || upload.url,
+              coverImageUrl: selectedAlbum.coverImageUrl || upload.thumbUrl,
             },
           });
         }
