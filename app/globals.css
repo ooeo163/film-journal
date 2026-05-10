@@ -17,6 +17,12 @@
   box-sizing: border-box;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -36,6 +42,13 @@ a {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 247, 233, 0.04)),
     radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.08), transparent 46%);
+}
+
+.home-background {
+  background-image: url('/images/homepage-background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .admin-light [class*="bg-[#231d18]"],

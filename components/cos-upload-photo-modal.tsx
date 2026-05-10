@@ -85,10 +85,10 @@ export function CosUploadPhotoModal({
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
-      <div className="w-full max-w-[560px] rounded-[1.5rem] border border-stone-700/80 bg-[rgba(17,16,15,0.96)] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.4)]">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 p-4">
+      <div className="w-full max-w-[560px] rounded-[1.5rem] border border-stone-700/80 bg-[rgba(17,16,15,0.96)] p-5 shadow-[0_18px_50px_rgba(0,0,0,0.4)] sm:p-6">
         <div className="border-b border-stone-700/70 pb-4">
-          <h2 className="text-2xl font-semibold text-stone-50">上传照片到云存储</h2>
+          <h2 className="text-xl font-semibold text-stone-50 sm:text-2xl">上传照片</h2>
         </div>
 
         {error && (
@@ -119,7 +119,7 @@ export function CosUploadPhotoModal({
               required
               accept="image/jpeg,image/png,image/webp,image/gif"
               onChange={(e) => setFileCount(e.target.files?.length ?? 0)}
-              className="rounded-[1rem] border border-stone-700/80 bg-[rgba(28,22,18,0.76)] px-4 py-3 text-stone-100 outline-none transition-colors file:mr-3 file:rounded-[0.5rem] file:border-0 file:bg-stone-700 file:px-3 file:py-1.5 file:text-sm file:text-stone-200 hover:file:bg-stone-600"
+              className="w-full max-w-full rounded-[1rem] border border-stone-700/80 bg-[rgba(28,22,18,0.76)] px-4 py-3 text-stone-100 outline-none transition-colors file:mr-3 file:rounded-[0.5rem] file:border-0 file:bg-stone-700 file:px-3 file:py-1.5 file:text-sm file:text-stone-200 hover:file:bg-stone-600"
             />
             {fileCount > 0 && (
               <span className="text-xs text-stone-500">
@@ -133,7 +133,7 @@ export function CosUploadPhotoModal({
             <select
               name="albumId"
               defaultValue={defaultAlbumId || ""}
-              className="rounded-[1rem] border border-stone-700/80 bg-[rgba(28,22,18,0.76)] px-4 py-3 text-stone-100 outline-none transition-colors focus:border-stone-500"
+              className="w-full max-w-full rounded-[1rem] border border-stone-700/80 bg-[rgba(28,22,18,0.76)] px-4 py-3 text-stone-100 outline-none transition-colors focus:border-stone-500"
             >
               <option value="">不添加到相册</option>
               {albums.map((album) => (
@@ -158,7 +158,7 @@ export function CosUploadPhotoModal({
               disabled={isSubmitting || fileCount === 0}
               className="flex-1 rounded-[1rem] bg-[rgba(118,95,73,0.88)] px-4 py-3 text-sm font-medium text-stone-100 transition-colors hover:bg-[rgba(145,116,89,0.92)] disabled:opacity-50"
             >
-              {isSubmitting ? "上传中..." : "上传到云存储"}
+              {isSubmitting ? "上传中..." : "上传照片"}
             </button>
           </div>
         </form>

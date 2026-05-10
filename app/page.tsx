@@ -2,17 +2,14 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="relative text-stone-100">
+    <main className="relative h-screen overflow-hidden text-stone-100">
       <div
-        className="home-bg-reveal fixed inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/images/homepage-background.jpg')",
-        }}
+        className="home-bg-reveal home-background fixed inset-0"
       />
 
-      <div className="relative z-10">
-        <section className="relative min-h-screen overflow-hidden">
-          <div className="relative mx-auto flex min-h-screen w-full max-w-[1480px] flex-col justify-between px-5 pb-10 pt-32 md:px-8 xl:px-10">
+      <div className="relative z-10 h-full">
+        <section className="relative h-full overflow-hidden">
+          <div className="relative mx-auto flex h-full w-full max-w-[1480px] flex-col justify-between px-5 pb-10 pt-32 md:px-8 xl:px-10">
             <div className="grid flex-1 items-center gap-10 lg:grid-cols-[0.98fr_1.02fr]">
               <div className="home-copy-enter max-w-[760px] space-y-7">
                 <p className="home-stagger-1 text-xs uppercase tracking-[0.45em] text-stone-400" style={{ fontFamily: "var(--font-display), Georgia, serif" }}>
@@ -24,8 +21,8 @@ export default function Home() {
                   AS MEMORIES
                 </h1>
                 <div className="home-stagger-3 max-w-xl space-y-3 text-base leading-8 text-stone-300 md:text-lg">
-                  <p>一个围绕胶片摄影建立的长期档案与展示网站。</p>
-                  <p>照片会沉淀成相册、时间轴，以及一整套更完整的记录系统。</p>
+                  <p>记录每一帧光影，用胶片定格时光的温度。</p>
+                  <p>在这里，照片汇成相册，岁月织成故事。</p>
                 </div>
                 <div className="home-stagger-4 pt-4">
                   <Link

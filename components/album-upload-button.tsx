@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { UploadPhotoModal } from "./upload-photo-modal";
+import { CosUploadPhotoModal } from "./cos-upload-photo-modal";
 
 type AlbumOption = {
   id: string;
@@ -26,7 +26,7 @@ export function AlbumUploadButton({ albumId, albums }: AlbumUploadButtonProps) {
         上传照片
       </button>
       {isModalOpen && (
-        <UploadPhotoModal
+        <CosUploadPhotoModal
           albums={albums}
           defaultAlbumId={albumId}
           onClose={() => setIsModalOpen(false)}
