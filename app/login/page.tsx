@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(7,6,5,0.28)_58%,rgba(5,4,4,0.74)_100%)]" />
       <div className="page-bg-soft-light fixed inset-0" />
 
-      <div className="relative z-10 flex h-screen items-start justify-center overflow-hidden px-6 pt-[28vh] pb-8">
+      <div className="relative z-10 flex h-screen items-start justify-center overflow-hidden px-6 pt-[22vh] pb-8">
         <section className="w-full max-w-[560px] rounded-[2rem] border border-stone-700/80 bg-[rgba(17,16,15,0.86)] px-8 pt-7 pb-10 shadow-[0_18px_50px_rgba(17,16,15,0.22)] backdrop-blur-[2px]">
           <div className="border-b border-stone-700/70 pb-4">
             <p className="text-xs uppercase tracking-[0.35em] text-stone-500">
