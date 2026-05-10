@@ -9,6 +9,16 @@ function sanitizeRedirect(value: string): string {
   return value;
 }
 
+function getOrigin(request: NextRequest): string {
+  const host =
+    request.headers.get("x-forwarded-host") ??
+    request.headers.get("host") ??
+    request.nextUrl.host;
+  const proto =
+    request.headers.get("x-forwarded-proto") ?? request.nextUrl.protocol.replace(":", "");
+  return `${proto}://${host}`;
+}
+
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const identifier =
@@ -37,13 +47,13 @@ export async function POST(request: NextRequest) {
   const valid = user?.password ? await verifyPassword(password, user.password) : false;
 
   if (!user || !valid) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = new URL("/login", getOrigin(request));
     loginUrl.searchParams.set("redirectTo", redirectTo);
     loginUrl.searchParams.set("error", "invalid-credentials");
     return NextResponse.redirect(loginUrl);
   }
 
-  const response = NextResponse.redirect(new URL(redirectTo, request.url));
+  const response = NextResponse.redirect(new URL(redirectTo, getOrigin(request)));
   response.cookies.set("fj_session", "active", {
     httpOnly: true,
     sameSite: "lax",

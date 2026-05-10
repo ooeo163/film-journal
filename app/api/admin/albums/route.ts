@@ -6,6 +6,16 @@ import {
 } from "@/lib/local-media-server";
 import { requireAuth } from "@/lib/require-admin";
 
+function getOrigin(request: NextRequest): string {
+  const host =
+    request.headers.get("x-forwarded-host") ??
+    request.headers.get("host") ??
+    request.nextUrl.host;
+  const proto =
+    request.headers.get("x-forwarded-proto") ?? request.nextUrl.protocol.replace(":", "");
+  return `${proto}://${host}`;
+}
+
 async function ensureUniqueAlbumSlug(baseSlug: string) {
   let candidate = baseSlug || "album";
   let counter = 1;
@@ -35,7 +45,7 @@ export async function POST(request: NextRequest) {
   const coverFile = formData.get("coverFile");
 
   function buildRedirect(path: string, error?: string) {
-    const url = new URL(path, request.url);
+    const url = new URL(path, getOrigin(request));
 
     if (error) {
       url.searchParams.set("error", error);
@@ -81,7 +91,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const successUrl = new URL(redirectTo, request.url);
+    const successUrl = new URL(redirectTo, getOrigin(request));
     successUrl.searchParams.set("created", album.slug);
 
     if (request.headers.get("x-admin-form") === "1") {
