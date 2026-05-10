@@ -19,7 +19,7 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ isLoggedIn, userName, userRole }: SiteHeaderProps) {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isOverlayRoute = pathname === "/" || pathname === "/login";
   const isSystemAdmin = userRole === "system_admin";
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ export function SiteHeader({ isLoggedIn, userName, userRole }: SiteHeaderProps) 
     <>
       <header
         className={
-          isHome
+          isOverlayRoute
             ? "absolute inset-x-0 top-0 z-40"
             : "sticky top-0 z-40 border-b border-stone-700/70 bg-[#16120f]/92 backdrop-blur"
         }
