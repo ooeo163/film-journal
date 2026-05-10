@@ -2,6 +2,7 @@
 
 import { PhotoViewerGallery } from "@/components/photo-viewer-gallery";
 import { PhotoViewerItem } from "@/components/photo-viewer-modal";
+import { getImageSrc } from "@/lib/local-media";
 
 type PhotoWallItem = {
   id: string;
@@ -16,7 +17,7 @@ type PhotoWallProps = {
 export function PhotoWall({ photos }: PhotoWallProps) {
   const viewerItems: PhotoViewerItem[] = photos.map((photo) => ({
     id: photo.id,
-    imageUrl: photo.imageUrl,
+    imageUrl: getImageSrc(photo.imageUrl),
   }));
 
   if (photos.length === 0) {
@@ -41,7 +42,7 @@ export function PhotoWall({ photos }: PhotoWallProps) {
             >
               <div className="aspect-[3/4] border border-stone-700/80 bg-[rgba(16,13,11,0.88)]">
                 <img
-                  src={photo.thumbUrl ?? photo.imageUrl}
+                  src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
                   alt=""
                   loading="lazy"
                   decoding="async"

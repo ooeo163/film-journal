@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { PhotoDetailViewer } from "@/components/photo-detail-viewer";
 import { prisma } from "@/lib/prisma";
+import { getImageSrc } from "@/lib/local-media";
 
 type PhotoDetailPageProps = {
   params: Promise<{
@@ -64,7 +65,7 @@ export default async function PhotoDetailPage({
                 item={{
                   id: photo.id,
                   title: photo.slug,
-                  imageUrl: photo.imageUrl,
+                  imageUrl: getImageSrc(photo.imageUrl),
                 }}
               />
             </div>

@@ -12,15 +12,19 @@ datasource db {
 }
 
 model Photo {
-  id         String   @id @default(cuid())
-  slug       String   @unique
-  imageUrl   String
-  thumbUrl   String?
-  creatorId  String?
-  creator    User?  @relation(fields: [creatorId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  albumLinks AlbumPhoto[]
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  imageUrl    String
+  thumbUrl    String?
+  cosKey      String?  @map("cos_key")
+  storageType String   @default("local") @map("storage_type")
+  creatorId   String?
+  creator     User?    @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  albumLinks  AlbumPhoto[]
+
+  @@index([storageType])
 }
 
 model Album {

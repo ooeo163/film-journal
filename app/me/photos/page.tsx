@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { AccountShell } from "@/components/account-shell";
 import { prisma } from "@/lib/prisma";
+import { getImageSrc } from "@/lib/local-media";
 
 export default async function MyPhotosPage() {
   const cookieStore = await cookies();
@@ -38,7 +39,7 @@ export default async function MyPhotosPage() {
                 <div className="aspect-[3/4] bg-[#16120f]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={photo.thumbUrl ?? photo.imageUrl}
+                    src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
                     alt=""
                     loading="lazy"
                     decoding="async"

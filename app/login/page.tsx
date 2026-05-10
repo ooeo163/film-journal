@@ -47,7 +47,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 name="identifier"
                 type="text"
                 placeholder="your@email.com"
-                autoComplete="username"
+                autoComplete="off"
                 className="rounded-[1rem] border border-stone-700/80 bg-[rgba(28,22,18,0.76)] px-4 py-3 text-stone-100 outline-none transition-colors placeholder:text-stone-500 focus:border-stone-500 [&:-webkit-autofill]:[-webkit-text-fill-color:rgb(214,211,209)] [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s]"
               />
             </label>
@@ -58,7 +58,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 name="password"
                 type="password"
                 placeholder="••••••••"
-                autoComplete="current-password"
+                autoComplete="off"
                 className="rounded-[1rem] border border-stone-700/80 bg-[rgba(28,22,18,0.76)] px-4 py-3 text-stone-100 outline-none transition-colors placeholder:text-stone-500 focus:border-stone-500 [&:-webkit-autofill]:[-webkit-text-fill-color:rgb(214,211,209)] [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s]"
               />
             </label>

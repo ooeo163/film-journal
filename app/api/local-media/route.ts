@@ -1,7 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { resolveLocalMediaPath } from "@/lib/local-media-server";
+import { isCosUrl, getCosSignedUrl, isCosEnabled } from "@/lib/cos-utils";
 
 const mimeTypes: Record<string, string> = {
   ".jpg": "image/jpeg",
@@ -16,6 +17,20 @@ export async function GET(request: NextRequest) {
 
   if (!relativePath) {
     return new Response("Missing path", { status: 400 });
+  }
+
+  if (isCosUrl(relativePath)) {
+    if (!isCosEnabled()) {
+      return new Response("COS is not configured", { status: 500 });
+    }
+
+    try {
+      const key = relativePath.replace("cos://", "");
+      const signedUrl = getCosSignedUrl(key, 300);
+      return NextResponse.redirect(signedUrl);
+    } catch {
+      return new Response("Failed to generate signed URL", { status: 500 });
+    }
   }
 
   try {

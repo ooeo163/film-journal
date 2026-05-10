@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminDeleteButton } from "@/components/admin-delete-button";
 import { prisma } from "@/lib/prisma";
+import { getImageSrc } from "@/lib/local-media";
 
 type AdminEditPhotoPageProps = {
   params: Promise<{
@@ -78,7 +79,7 @@ export default async function AdminEditPhotoPage({
             <div className="overflow-hidden border border-stone-800 bg-[#181411]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={photo.imageUrl}
+                src={getImageSrc(photo.imageUrl)}
                 alt={photo.slug}
                 className="h-auto w-full object-cover"
               />

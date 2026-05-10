@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { PhotoViewerGallery } from "@/components/photo-viewer-gallery";
+import { getImageSrc } from "@/lib/local-media";
 
 type FilmPhoto = {
   id: string;
@@ -35,7 +36,7 @@ export function AlbumFilmStrip({
       photos.map((photo) => ({
         id: `frame-${String(photo.sortOrder + 1).padStart(2, "0")}`,
         title: `Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`,
-        imageUrl: photo.imageUrl,
+        imageUrl: getImageSrc(photo.imageUrl),
         subtitle: `${albumTitle} · Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`,
       })),
     [albumTitle, photos],
@@ -61,7 +62,7 @@ export function AlbumFilmStrip({
                   <div className="rounded-[0.9rem] border border-stone-700/70 bg-black/75 p-1.5">
                     <div className="overflow-hidden rounded-[0.7rem] bg-[rgba(16,13,11,0.92)]">
                       <img
-                        src={photo.thumbUrl ?? photo.imageUrl}
+                        src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
                         alt={`Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`}
                         loading="lazy"
                         decoding="async"
@@ -102,7 +103,7 @@ export function AlbumFilmStrip({
                             <div className="rounded-[0.9rem] border border-stone-700/70 bg-black/75 p-1.5">
                               <div className="aspect-[4/3] overflow-hidden rounded-[0.7rem] bg-[rgba(16,13,11,0.92)]">
                                 <img
-                                  src={photo.thumbUrl ?? photo.imageUrl}
+                                  src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
                                   alt={`Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`}
                                   loading="lazy"
                                   decoding="async"

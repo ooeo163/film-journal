@@ -100,7 +100,8 @@ export async function saveUploadedLocalMedia(
 
   let isCompressed = false;
   if (imageBuffer.length > MAX_ORIGINAL_SIZE) {
-    imageBuffer = await compressImage(imageBuffer, file.type);
+    const compressed = await compressImage(imageBuffer, file.type);
+    imageBuffer = Buffer.from(compressed);
     isCompressed = true;
   }
 

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getImageSrc } from "@/lib/local-media";
 
 type LinkedPhoto = {
   id: string;
@@ -52,9 +53,7 @@ export function AdminAlbumPhotoManager({
     try {
       const response = await fetch(
         `/api/admin/albums/${albumId}/photos/${photoId}`,
-        {
-          method: "DELETE",
-        },
+        { method: "DELETE" },
       );
       const data = await response.json();
 
@@ -81,13 +80,8 @@ export function AdminAlbumPhotoManager({
     try {
       const response = await fetch(`/api/admin/albums/${albumId}/sort`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          photoId,
-          direction,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ photoId, direction }),
       });
       const data = await response.json();
 
@@ -119,12 +113,8 @@ export function AdminAlbumPhotoManager({
     try {
       const response = await fetch(`/api/admin/albums/${albumId}/photos`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          photoIds: selectedIds,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ photoIds: selectedIds }),
       });
       const data = await response.json();
 
@@ -162,9 +152,8 @@ export function AdminAlbumPhotoManager({
                 className="flex items-center gap-4 border border-stone-800 bg-[#1a1613] p-3"
               >
                 <div className="flex h-16 w-16 items-center justify-center overflow-hidden border border-stone-700 bg-[#14110f]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={photo.imageUrl}
+                    src={getImageSrc(photo.imageUrl)}
                     alt={`照片 ${index + 1}`}
                     className="h-full w-full object-cover"
                   />
@@ -262,9 +251,8 @@ export function AdminAlbumPhotoManager({
                   />
 
                   <div className="flex h-20 w-20 items-center justify-center overflow-hidden border border-stone-700 bg-[#14110f]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={photo.imageUrl}
+                      src={getImageSrc(photo.imageUrl)}
                       alt={photo.slug}
                       className="h-full w-full object-cover"
                     />
@@ -282,7 +270,7 @@ export function AdminAlbumPhotoManager({
           </div>
         ) : (
           <div className="px-5 py-8 text-sm leading-7 text-stone-400">
-            当前没有可加入的照片。你可以先去“新建照片”上传内容。
+            当前没有可加入的照片。你可以先去"新建照片"上传内容。
           </div>
         )}
       </section>

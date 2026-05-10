@@ -13,6 +13,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
+    "cos-nodejs-sdk-v5": "^2.15.4",
     "next": "16.2.4",
     "pg": "^8.20.0",
     "prisma": "^7.7.0",

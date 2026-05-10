@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getImageSrc } from "@/lib/local-media";
 
 type PhotoItem = {
   id: string;
@@ -68,7 +69,7 @@ export function AdminPhotoGrid({ photos }: AdminPhotoGridProps) {
         >
           <div className="aspect-[3/4] bg-[#f7f5f0]">
             <img
-              src={photo.thumbUrl ?? photo.imageUrl}
+              src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
               alt={photo.slug}
               loading="lazy"
               decoding="async"
