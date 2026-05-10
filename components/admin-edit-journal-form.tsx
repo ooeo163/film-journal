@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getImageSrc } from "@/lib/local-media";
 
 type AdminEditJournalFormProps = {
   journal: {
@@ -135,7 +136,7 @@ export function AdminEditJournalForm({ journal }: AdminEditJournalFormProps) {
             <div className="overflow-hidden border border-stone-700 bg-[#14110f]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={journal.coverImageUrl}
+                src={getImageSrc(journal.coverImageUrl)}
                 alt={`${journal.title} cover`}
                 className="h-44 w-full object-cover"
               />

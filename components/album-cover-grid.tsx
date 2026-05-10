@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getImageSrc } from "@/lib/local-media";
 
 type AlbumCover = {
   id: string;
@@ -26,7 +27,7 @@ export function AlbumCoverGrid({ albums }: AlbumCoverGridProps) {
             <div className="aspect-[3/4] bg-[rgba(16,13,11,0.88)]">
               {album.coverImageUrl ? (
                 <img
-                  src={album.coverImageUrl}
+                  src={getImageSrc(album.coverImageUrl)}
                   alt={album.title}
                   loading="lazy"
                   decoding="async"

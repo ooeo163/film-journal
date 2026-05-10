@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getImageSrc } from "@/lib/local-media";
 
 type AlbumSwitcherItem = {
   id: string;
@@ -37,7 +38,7 @@ function AlbumLink({
       <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-[0.8rem] border border-stone-700/60 bg-[rgba(16,13,11,0.88)]">
         {item.coverImageUrl ? (
           <img
-            src={item.coverImageUrl}
+            src={getImageSrc(item.coverImageUrl)}
             alt=""
             loading="lazy"
             decoding="async"

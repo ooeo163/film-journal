@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getImageSrc } from "@/lib/local-media";
 
 type AdminEditAlbumFormProps = {
   album: {
@@ -136,7 +137,7 @@ export function AdminEditAlbumForm({ album }: AdminEditAlbumFormProps) {
             <div className="overflow-hidden border border-stone-700 bg-[#14110f]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={album.coverImageUrl}
+                src={getImageSrc(album.coverImageUrl)}
                 alt={`${album.title} cover`}
                 className="h-44 w-full object-cover"
               />
