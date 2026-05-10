@@ -7,8 +7,6 @@ import {
 } from "@/lib/local-media-server";
 import { requireAuth } from "@/lib/require-admin";
 
-export const maxSize = 200; // 200MB
-
 async function ensureUniquePhotoSlug(baseSlug: string) {
   let candidate = baseSlug || "photo";
   let counter = 1;

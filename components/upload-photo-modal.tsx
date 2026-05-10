@@ -15,8 +15,6 @@ type UploadPhotoModalProps = {
   onClose: () => void;
 };
 
-const BATCH_SIZE = 5;
-
 export function UploadPhotoModal({ albums, defaultAlbumId, onClose }: UploadPhotoModalProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,16 +42,14 @@ export function UploadPhotoModal({ albums, defaultAlbumId, onClose }: UploadPhot
     }
 
     const files = Array.from(allFiles);
-    const totalBatches = Math.ceil(files.length / BATCH_SIZE);
     let uploadedCount = 0;
 
     try {
-      for (let i = 0; i < totalBatches; i++) {
-        const batch = files.slice(i * BATCH_SIZE, (i + 1) * BATCH_SIZE);
-        setProgress(`上传中 ${i + 1}/${totalBatches}...`);
+      for (let i = 0; i < files.length; i++) {
+        setProgress(`上传中 ${i + 1}/${files.length}...`);
 
         const formData = new FormData();
-        batch.forEach((file) => formData.append("files", file));
+        formData.append("files", files[i]);
         if (albumId) formData.append("albumId", albumId);
 
         const response = await fetch("/api/admin/photos/batch", {
@@ -136,7 +132,6 @@ export function UploadPhotoModal({ albums, defaultAlbumId, onClose }: UploadPhot
             {fileCount > 0 && (
               <span className="text-xs text-stone-500">
                 已选择 {fileCount} 张照片
-                {fileCount > BATCH_SIZE && ` (将分 ${Math.ceil(fileCount / BATCH_SIZE)} 批上传)`}
               </span>
             )}
           </label>
