@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AdminShell } from "@/components/admin-shell";
 import { prisma } from "@/lib/prisma";
 import { UserRegistrationForm } from "@/components/user-registration-form";
@@ -58,6 +59,9 @@ export default async function UsersPage() {
                 <th className="px-5 py-3 text-left text-[11px] uppercase tracking-[0.24em] text-[#8a8276]">
                   创建时间
                 </th>
+                <th className="px-5 py-3 text-left text-[11px] uppercase tracking-[0.24em] text-[#8a8276]">
+                  操作
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -88,6 +92,14 @@ export default async function UsersPage() {
                   </td>
                   <td className="px-5 py-4 text-sm text-[#5d574f]">
                     {new Date(user.createdAt).toLocaleDateString("zh-CN")}
+                  </td>
+                  <td className="px-5 py-4">
+                    <Link
+                      href={`/admin/users/${user.id}/edit`}
+                      className="inline-block rounded border border-[#d6d0c5] bg-white px-3 py-1 text-sm text-[#5d574f] transition-colors hover:bg-[#f7f5f0]"
+                    >
+                      编辑
+                    </Link>
                   </td>
                 </tr>
               ))}
