@@ -64,12 +64,3 @@ export function generateCosKey(
 
   return `${targetFolder}/${year}/${month}/${baseName}-${uniqueId}.${ext}`;
 }
-
-export function resolveCosUrl(url: string | null | undefined): string | null {
-  if (!url) return null;
-  if (url.startsWith("cos://")) {
-    const key = url.replace("cos://", "");
-    return getCosPublicUrl(key);
-  }
-  return url;
-}

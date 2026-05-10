@@ -33,14 +33,14 @@ export async function uploadToCos(
     uploadFileWithPresignedUrl(thumbUrl, thumbBlob),
   ]);
 
-  const publicUrl = originalUrl.split("?")[0];
-  const thumbPublicUrl = thumbUrl.split("?")[0];
+  const publicBase = originalUrl.split("?")[0];
+  const thumbPublicBase = thumbUrl.split("?")[0];
 
   return {
     key,
     thumbKey,
-    url: publicUrl,
-    thumbUrl: thumbPublicUrl,
+    url: `cos://${key}`,
+    thumbUrl: `cos://${thumbKey}`,
   };
 }
 

@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { AlbumFilmStrip } from "@/components/album-film-strip";
 import { AlbumSwitcher } from "@/components/album-switcher";
 import { AlbumUploadButton } from "@/components/album-upload-button";
-import { resolveCosUrl } from "@/lib/cos-utils";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 
@@ -96,7 +95,7 @@ export default async function AlbumDetailPage({
             <AlbumSwitcher
               albums={albumList.map((a) => ({
                 ...a,
-                coverImageUrl: resolveCosUrl(a.coverImageUrl || a.photoLinks[0]?.photo.thumbUrl || a.photoLinks[0]?.photo.imageUrl),
+                coverImageUrl: a.coverImageUrl || a.photoLinks[0]?.photo.thumbUrl || a.photoLinks[0]?.photo.imageUrl || null,
               }))}
               activeSlug={album.slug}
             />
