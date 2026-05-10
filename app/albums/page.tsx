@@ -21,6 +21,15 @@ export default async function AlbumsPage() {
           photoLinks: true,
         },
       },
+      photoLinks: {
+        take: 1,
+        orderBy: { sortOrder: "asc" },
+        select: {
+          photo: {
+            select: { thumbUrl: true, imageUrl: true },
+          },
+        },
+      },
     },
   });
 
@@ -61,7 +70,7 @@ export default async function AlbumsPage() {
               title: album.title,
               slug: album.slug,
               description: album.description,
-              coverImageUrl: album.coverImageUrl,
+              coverImageUrl: album.coverImageUrl || album.photoLinks[0]?.photo.thumbUrl || album.photoLinks[0]?.photo.imageUrl || null,
               photoCount: album._count.photoLinks,
             }))}
           />

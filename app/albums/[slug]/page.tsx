@@ -47,6 +47,15 @@ export default async function AlbumDetailPage({
         slug: true,
         imageCount: true,
         coverImageUrl: true,
+        photoLinks: {
+          take: 1,
+          orderBy: { sortOrder: "asc" },
+          select: {
+            photo: {
+              select: { thumbUrl: true, imageUrl: true },
+            },
+          },
+        },
       },
     }),
     prisma.album.findMany({
@@ -83,7 +92,13 @@ export default async function AlbumDetailPage({
       <div className="relative z-10 px-4 pb-16 pt-4 sm:px-6 sm:pb-12 sm:pt-5">
         <div className="mx-auto flex w-full max-w-[1480px] flex-col gap-5">
           <section className="grid gap-5 xl:grid-cols-[320px_1fr]">
-            <AlbumSwitcher albums={albumList} activeSlug={album.slug} />
+            <AlbumSwitcher
+              albums={albumList.map((a) => ({
+                ...a,
+                coverImageUrl: a.coverImageUrl || a.photoLinks[0]?.photo.thumbUrl || a.photoLinks[0]?.photo.imageUrl || null,
+              }))}
+              activeSlug={album.slug}
+            />
 
             <section className="rounded-[1.4rem] border border-stone-700/80 bg-[rgba(17,16,15,0.84)] p-4 shadow-[0_18px_50px_rgba(17,16,15,0.22)] backdrop-blur-[2px] sm:rounded-[2rem] sm:p-8">
               <div className="mb-5 grid gap-3 border-b border-stone-700/70 pb-4 sm:mb-6 sm:flex sm:items-end sm:justify-between sm:gap-4">
