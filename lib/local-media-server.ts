@@ -41,9 +41,9 @@ export function sanitizeMediaSegment(value: string) {
 }
 
 const MAX_ORIGINAL_SIZE = 1024 * 1024; // 1MB
-const MAX_THUMB_SIZE = 200 * 1024; // 200KB
-const THUMB_MAX_WIDTH = 400;
-const THUMB_MAX_HEIGHT = 400;
+const MAX_THUMB_SIZE = 500 * 1024; // 500KB
+const THUMB_MAX_WIDTH = 800;
+const THUMB_MAX_HEIGHT = 800;
 
 async function compressImage(buffer: Buffer, mimeType: string): Promise<Buffer> {
   const image = sharp(buffer);
@@ -68,14 +68,14 @@ async function generateThumbnail(buffer: Buffer, mimeType: string): Promise<Buff
   });
 
   if (mimeType === "image/png") {
-    return resized.png({ quality: 70 }).toBuffer();
+    return resized.png({ quality: 82 }).toBuffer();
   }
 
   if (mimeType === "image/webp") {
-    return resized.webp({ quality: 70 }).toBuffer();
+    return resized.webp({ quality: 82 }).toBuffer();
   }
 
-  return resized.jpeg({ quality: 70 }).toBuffer();
+  return resized.jpeg({ quality: 82 }).toBuffer();
 }
 
 export async function saveUploadedLocalMedia(
@@ -113,8 +113,8 @@ export async function saveUploadedLocalMedia(
 
   let thumbBuffer = await generateThumbnail(imageBuffer, file.type);
 
-  let thumbQuality = 70;
-  while (thumbBuffer.length > MAX_THUMB_SIZE && thumbQuality > 20) {
+  let thumbQuality = 82;
+  while (thumbBuffer.length > MAX_THUMB_SIZE && thumbQuality > 30) {
     thumbQuality -= 10;
     const image = sharp(imageBuffer).resize(THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT, {
       fit: "inside",
