@@ -42,3 +42,13 @@ next-env.d.ts
 
 /app/generated/prisma
 /storage/
+
+# opencode
+.opencode/
+
+# design reference (local only)
+/design-systems/
+
+# dev logs
+next-dev.err.log
+next-dev.out.log
