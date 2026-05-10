@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireAuth } from "@/lib/require-admin";
 
 type RouteContext = {
   params: Promise<{
@@ -9,8 +9,8 @@ type RouteContext = {
 };
 
 export async function DELETE(_: NextRequest, context: RouteContext) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -24,6 +24,7 @@ export async function DELETE(_: NextRequest, context: RouteContext) {
       id: true,
       slug: true,
       imageUrl: true,
+      creatorId: true,
       albumLinks: {
         select: {
           albumId: true,
@@ -34,6 +35,10 @@ export async function DELETE(_: NextRequest, context: RouteContext) {
 
   if (!existingPhoto) {
     return NextResponse.json({ error: "photo-not-found" }, { status: 404 });
+  }
+
+  if (existingPhoto.creatorId !== user.id && user.role !== "system_admin") {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   try {

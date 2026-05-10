@@ -110,6 +110,12 @@ export function SiteHeader({ isLoggedIn, userName, userRole }: SiteHeaderProps) 
                         系统管理
                       </Link>
                     ) : null}
+                    <Link
+                      href="/admin/photos"
+                      className="block rounded-[0.9rem] px-4 py-3 text-sm text-stone-200 transition-colors hover:bg-[rgba(40,31,25,0.82)]"
+                    >
+                      内容管理
+                    </Link>
                     <form method="post" action="/api/auth/logout">
                       <button
                         type="submit"
@@ -223,6 +229,9 @@ export function SiteHeader({ isLoggedIn, userName, userRole }: SiteHeaderProps) 
                     系统管理
                   </Link>
                 ) : null}
+                <Link href="/admin/photos" onClick={() => setMobileOpen(false)} className="block py-2.5 text-sm tracking-wider text-stone-400 transition-colors hover:text-stone-100">
+                  内容管理
+                </Link>
                 <form method="post" action="/api/auth/logout">
                   <button
                     type="submit"

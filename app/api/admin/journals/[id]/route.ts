@@ -4,7 +4,7 @@ import {
   sanitizeMediaSegment,
   saveUploadedLocalMedia,
 } from "@/lib/local-media-server";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireAuth } from "@/lib/require-admin";
 
 type RouteContext = {
   params: Promise<{
@@ -36,8 +36,8 @@ async function ensureUniqueJournalSlug(baseSlug: string, currentId: string) {
 }
 
 export async function PATCH(request: NextRequest, context: RouteContext) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -119,8 +119,8 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
 }
 
 export async function DELETE(_: NextRequest, context: RouteContext) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireAuth } from "@/lib/require-admin";
 
 type RouteContext = {
   params: Promise<{
@@ -9,8 +9,8 @@ type RouteContext = {
 };
 
 export async function POST(request: NextRequest, context: RouteContext) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -21,6 +21,19 @@ export async function POST(request: NextRequest, context: RouteContext) {
 
   if (!photoId) {
     return NextResponse.json({ error: "missing-photo-id" }, { status: 400 });
+  }
+
+  const album = await prisma.album.findUnique({
+    where: { id: albumId },
+    select: { id: true, creatorId: true },
+  });
+
+  if (!album) {
+    return NextResponse.json({ error: "album-not-found" }, { status: 404 });
+  }
+
+  if (album.creatorId !== user.id && user.role !== "system_admin") {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   const links = await prisma.albumPhoto.findMany({

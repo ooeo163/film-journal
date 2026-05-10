@@ -5,7 +5,7 @@ import {
   sanitizeMediaSegment,
   saveUploadedLocalMedia,
 } from "@/lib/local-media-server";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireAuth } from "@/lib/require-admin";
 
 export const maxSize = 200; // 200MB
 
@@ -22,8 +22,8 @@ async function ensureUniquePhotoSlug(baseSlug: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -33,8 +33,6 @@ export async function POST(request: NextRequest) {
       .getAll("files")
       .filter((item): item is File => item instanceof File && item.size > 0);
     const albumId = String(formData.get("albumId") || "").trim();
-
-    const userId = request.cookies.get("fj_user_id")?.value;
 
     if (files.length === 0) {
       return NextResponse.json({ error: "missing-files" }, { status: 400 });
@@ -64,7 +62,7 @@ export async function POST(request: NextRequest) {
           slug,
           imageUrl: upload.url,
           thumbUrl: upload.thumbUrl,
-          creatorId: userId || null,
+          creatorId: user.id,
         },
         select: {
           id: true,
@@ -136,8 +134,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -153,11 +151,13 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "missing-ids" }, { status: 400 });
     }
 
-    const photos = await prisma.photo.findMany({
+    const resources = await prisma.photo.findMany({
       where: {
-        id: {
-          in: ids,
-        },
+        id: { in: ids },
+        OR: [
+          { creatorId: user.id },
+          ...(user.role === "system_admin" ? [{}] : []),
+        ],
       },
       select: {
         id: true,
@@ -169,10 +169,17 @@ export async function DELETE(request: NextRequest) {
         },
       },
     });
-    const deletedImageUrls = new Set(photos.map((photo) => photo.imageUrl));
+
+    const deletableIds = resources.map((r) => r.id);
+
+    if (deletableIds.length === 0) {
+      return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    }
+
+    const deletedImageUrls = new Set(resources.map((photo) => photo.imageUrl));
     const affectedAlbumIds = [
       ...new Set(
-        photos.flatMap((photo) => photo.albumLinks.map((link) => link.albumId)),
+        resources.flatMap((photo) => photo.albumLinks.map((link) => link.albumId)),
       ),
     ];
 
@@ -180,7 +187,7 @@ export async function DELETE(request: NextRequest) {
       await tx.photo.deleteMany({
         where: {
           id: {
-            in: ids,
+            in: deletableIds,
           },
         },
       });
@@ -229,7 +236,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({
       ok: true,
-      redirectTo: `/admin/photos?deleted=${photos.length}`,
+      redirectTo: `/admin/photos?deleted=${resources.length}`,
     });
   } catch (error) {
     console.error("Batch delete error:", error);

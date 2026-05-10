@@ -4,8 +4,7 @@ import {
   sanitizeMediaSegment,
   saveUploadedLocalMedia,
 } from "@/lib/local-media-server";
-import { cookies } from "next/headers";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireAuth } from "@/lib/require-admin";
 
 async function ensureUniquePhotoSlug(baseSlug: string) {
   let candidate = baseSlug || "photo";
@@ -20,8 +19,8 @@ async function ensureUniquePhotoSlug(baseSlug: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -31,9 +30,6 @@ export async function POST(request: NextRequest) {
   const albumId = String(formData.get("albumId") || "").trim();
   const redirectTo =
     String(formData.get("redirectTo") || "").trim() || "/admin/photos";
-
-  const cookieStore = await cookies();
-  const userId = cookieStore.get("fj_user_id")?.value;
 
   function buildRedirect(path: string, error?: string) {
     const url = new URL(path, request.url);
@@ -65,7 +61,7 @@ export async function POST(request: NextRequest) {
           slug,
           imageUrl: upload.url,
           thumbUrl: upload.thumbUrl,
-          creatorId: userId || null,
+          creatorId: user.id,
         },
         select: {
           id: true,

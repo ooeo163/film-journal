@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
-export async function requireAdmin() {
+export async function requireAuth() {
   const cookieStore = await cookies();
   const userId = cookieStore.get("fj_user_id")?.value;
 
@@ -14,7 +14,17 @@ export async function requireAdmin() {
     select: { id: true, role: true, isActive: true },
   });
 
-  if (!user || !user.isActive || user.role !== "system_admin") {
+  if (!user || !user.isActive) {
+    return null;
+  }
+
+  return user;
+}
+
+export async function requireAdmin() {
+  const user = await requireAuth();
+
+  if (!user || user.role !== "system_admin") {
     return null;
   }
 

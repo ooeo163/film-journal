@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { saveUploadedLocalMedia } from "@/lib/local-media-server";
 import { prisma } from "@/lib/prisma";
 import { sanitizeMediaSegment } from "@/lib/local-media-server";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireAuth } from "@/lib/require-admin";
 
 type RouteContext = {
   params: Promise<{
@@ -34,8 +34,8 @@ async function ensureUniqueAlbumSlug(baseSlug: string, currentId: string) {
 }
 
 export async function PATCH(request: NextRequest, context: RouteContext) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -64,11 +64,16 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
     select: {
       id: true,
       coverImageUrl: true,
+      creatorId: true,
     },
   });
 
   if (!existingAlbum) {
     return NextResponse.json({ error: "album-not-found" }, { status: 404 });
+  }
+
+  if (existingAlbum.creatorId !== user.id && user.role !== "system_admin") {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   try {
@@ -136,8 +141,8 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
 }
 
 export async function DELETE(_: NextRequest, context: RouteContext) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -149,11 +154,16 @@ export async function DELETE(_: NextRequest, context: RouteContext) {
     },
     select: {
       id: true,
+      creatorId: true,
     },
   });
 
   if (!existingAlbum) {
     return NextResponse.json({ error: "album-not-found" }, { status: 404 });
+  }
+
+  if (existingAlbum.creatorId !== user.id && user.role !== "system_admin") {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   try {

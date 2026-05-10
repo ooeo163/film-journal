@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireAuth } from "@/lib/require-admin";
 
 export async function DELETE(request: NextRequest) {
-  const admin = await requireAdmin();
-  if (!admin) {
+  const user = await requireAuth();
+  if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -18,17 +18,34 @@ export async function DELETE(request: NextRequest) {
   }
 
   try {
+    const resources = await prisma.album.findMany({
+      where: {
+        id: { in: ids },
+        OR: [
+          { creatorId: user.id },
+          ...(user.role === "system_admin" ? [{}] : []),
+        ],
+      },
+      select: { id: true },
+    });
+
+    const deletableIds = resources.map((r) => r.id);
+
+    if (deletableIds.length === 0) {
+      return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    }
+
     await prisma.album.deleteMany({
       where: {
         id: {
-          in: ids,
+          in: deletableIds,
         },
       },
     });
 
     return NextResponse.json({
       ok: true,
-      redirectTo: `/admin/albums?deleted=${ids.length}`,
+      redirectTo: `/admin/albums?deleted=${deletableIds.length}`,
     });
   } catch (error) {
     return NextResponse.json(
