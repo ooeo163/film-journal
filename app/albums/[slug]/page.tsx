@@ -114,7 +114,6 @@ export default async function AlbumDetailPage({
                 albumTitle={album.title}
                 photos={album.photoLinks.map((link) => ({
                   id: link.id,
-                  title: link.photo.title,
                   imageUrl: link.photo.imageUrl,
                   thumbUrl: link.photo.thumbUrl,
                   sortOrder: link.sortOrder,

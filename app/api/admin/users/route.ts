@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/password";
+import { requireAdmin } from "@/lib/require-admin";
 
 export async function POST(request: NextRequest) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   const formData = await request.formData();
   const username =
     typeof formData.get("username") === "string"
@@ -63,6 +69,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   const users = await prisma.user.findMany({
     where: { isActive: true },
     select: {

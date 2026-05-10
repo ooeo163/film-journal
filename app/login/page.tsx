@@ -33,15 +33,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
             </h1>
           </div>
 
-          {error === "user-not-found" ? (
-            <div className="mt-6 rounded-[1.2rem] border border-amber-700/40 bg-[rgba(77,52,22,0.38)] p-4 text-sm leading-7 text-amber-100">
-              没有找到这个账号。
-            </div>
-          ) : null}
-
-          {error === "wrong-password" ? (
+          {error === "invalid-credentials" ? (
             <div className="mt-6 rounded-[1.2rem] border border-red-700/40 bg-[rgba(77,22,22,0.38)] p-4 text-sm leading-7 text-red-100">
-              密码错误，请重试。
+              用户名或密码错误，请重试。
             </div>
           ) : null}
 

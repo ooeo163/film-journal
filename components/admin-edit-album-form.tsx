@@ -15,7 +15,6 @@ type AdminEditAlbumFormProps = {
     photoLinks?: {
       photo: {
         id: string;
-        title: string;
         imageUrl: string;
       };
     }[];
@@ -154,9 +153,9 @@ export function AdminEditAlbumForm({ album }: AdminEditAlbumFormProps) {
               className="w-full border border-stone-700 bg-[#181411] px-3 py-2 text-stone-100 outline-none transition-colors focus:border-stone-500"
             >
               <option value="">保持当前封面不变</option>
-              {linkedPhotos.map(({ photo }) => (
+              {linkedPhotos.map(({ photo }, index) => (
                 <option key={photo.id} value={photo.id}>
-                  {photo.title}
+                  照片 {index + 1}
                 </option>
               ))}
             </select>

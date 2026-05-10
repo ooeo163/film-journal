@@ -4,6 +4,7 @@ import {
   sanitizeMediaSegment,
   saveUploadedLocalMedia,
 } from "@/lib/local-media-server";
+import { requireAdmin } from "@/lib/require-admin";
 
 async function ensureUniqueJournalSlug(baseSlug: string) {
   let candidate = baseSlug || "journal";
@@ -18,6 +19,11 @@ async function ensureUniqueJournalSlug(baseSlug: string) {
 }
 
 export async function POST(request: NextRequest) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   const formData = await request.formData();
   const title = String(formData.get("title") || "").trim();
   const slugInput = String(formData.get("slug") || "").trim();

@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 
 export type PhotoViewerItem = {
   id: string;
+  title?: string;
   imageUrl: string;
 };
 

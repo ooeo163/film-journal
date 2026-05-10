@@ -5,6 +5,7 @@ import {
   sanitizeMediaSegment,
   saveUploadedLocalMedia,
 } from "@/lib/local-media-server";
+import { requireAdmin } from "@/lib/require-admin";
 
 export const maxSize = 200; // 200MB
 
@@ -21,6 +22,11 @@ async function ensureUniquePhotoSlug(baseSlug: string) {
 }
 
 export async function POST(request: NextRequest) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   try {
     const formData = await request.formData();
     const files = formData
@@ -130,6 +136,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json().catch(() => null);
     const ids = Array.isArray(body?.ids)

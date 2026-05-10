@@ -5,7 +5,6 @@ import { PhotoViewerGallery } from "@/components/photo-viewer-gallery";
 
 type FilmPhoto = {
   id: string;
-  title: string;
   imageUrl: string;
   thumbUrl: string | null;
   sortOrder: number;
@@ -35,7 +34,7 @@ export function AlbumFilmStrip({
     () =>
       photos.map((photo) => ({
         id: `frame-${String(photo.sortOrder + 1).padStart(2, "0")}`,
-        title: photo.title,
+        title: `Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`,
         imageUrl: photo.imageUrl,
         subtitle: `${albumTitle} · Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`,
       })),
@@ -57,13 +56,13 @@ export function AlbumFilmStrip({
                   type="button"
                   className="-mt-px block w-full border border-[#54483c] bg-[linear-gradient(180deg,#2b241f_0%,#181411_100%)] p-2 text-left transition-transform active:scale-[0.99]"
                   onClick={() => openAt(index)}
-                  aria-label={`Open ${photo.title}`}
+                  aria-label={`Open Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`}
                 >
                   <div className="rounded-[0.9rem] border border-stone-700/70 bg-black/75 p-1.5">
                     <div className="overflow-hidden rounded-[0.7rem] bg-[rgba(16,13,11,0.92)]">
                       <img
                         src={photo.thumbUrl ?? photo.imageUrl}
-                        alt={photo.title}
+                        alt={`Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`}
                         loading="lazy"
                         decoding="async"
                         className="h-auto w-full object-contain"
@@ -98,13 +97,13 @@ export function AlbumFilmStrip({
                             type="button"
                             className="-ml-px -mt-px border border-[#54483c] bg-[linear-gradient(180deg,#2b241f_0%,#181411_100%)] p-2 text-left transition-transform hover:z-10 hover:scale-[1.02]"
                             onClick={() => openAt(rowIndex * 4 + index)}
-                            aria-label={`Open ${photo.title}`}
+                            aria-label={`Open Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`}
                           >
                             <div className="rounded-[0.9rem] border border-stone-700/70 bg-black/75 p-1.5">
                               <div className="aspect-[4/3] overflow-hidden rounded-[0.7rem] bg-[rgba(16,13,11,0.92)]">
                                 <img
                                   src={photo.thumbUrl ?? photo.imageUrl}
-                                  alt={photo.title}
+                                  alt={`Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`}
                                   loading="lazy"
                                   decoding="async"
                                   className="h-full w-full object-cover"

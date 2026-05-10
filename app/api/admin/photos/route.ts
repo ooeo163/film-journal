@@ -5,6 +5,7 @@ import {
   saveUploadedLocalMedia,
 } from "@/lib/local-media-server";
 import { cookies } from "next/headers";
+import { requireAdmin } from "@/lib/require-admin";
 
 async function ensureUniquePhotoSlug(baseSlug: string) {
   let candidate = baseSlug || "photo";
@@ -19,6 +20,11 @@ async function ensureUniquePhotoSlug(baseSlug: string) {
 }
 
 export async function POST(request: NextRequest) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   const formData = await request.formData();
   const file = formData.get("file");
   const customSlug = String(formData.get("slug") || "").trim();

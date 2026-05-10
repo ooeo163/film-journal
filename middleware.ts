@@ -25,9 +25,9 @@ export function middleware(request: NextRequest) {
 
   const role = request.cookies.get("fj_user_role")?.value;
 
-  if (pathname === "/admin" || pathname.startsWith("/admin/users")) {
+  if (pathname.startsWith("/admin")) {
     if (role !== "system_admin") {
-      return NextResponse.redirect(new URL("/admin/photos", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 

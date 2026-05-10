@@ -19,7 +19,7 @@ export default async function PhotoDetailPage({
     },
   });
 
-  if (!photo || !photo.isPublished) {
+  if (!photo) {
     notFound();
   }
 
@@ -43,11 +43,8 @@ export default async function PhotoDetailPage({
                 Photo Detail
               </p>
               <h1 className="text-4xl font-semibold tracking-tight text-stone-50 md:text-5xl">
-                {photo.title}
+                {photo.slug}
               </h1>
-              <p className="max-w-2xl text-base leading-8 text-stone-300">
-                {photo.description ?? "这张照片目前还没有补充更详细的说明。"}
-              </p>
             </div>
 
             <div className="rounded-[2rem] border border-stone-700/80 bg-[rgba(28,22,18,0.82)] p-6 shadow-[0_14px_44px_rgba(0,0,0,0.28)] backdrop-blur-[2px]">
@@ -66,11 +63,8 @@ export default async function PhotoDetailPage({
               <PhotoDetailViewer
                 item={{
                   id: photo.id,
-                  title: photo.title,
+                  title: photo.slug,
                   imageUrl: photo.imageUrl,
-                  subtitle: `${photo.camera ?? "Unknown Camera"} · ${
-                    photo.filmStock ?? "Unknown Film"
-                  }`,
                 }}
               />
             </div>
@@ -86,31 +80,13 @@ export default async function PhotoDetailPage({
                     <dd>{photo.slug}</dd>
                   </div>
                   <div>
-                    <dt className="text-stone-500">Location</dt>
-                    <dd>{photo.location ?? "Unknown"}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-stone-500">Camera</dt>
-                    <dd>{photo.camera ?? "Unknown"}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-stone-500">Lens</dt>
-                    <dd>{photo.lens ?? "Unknown"}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-stone-500">Film</dt>
-                    <dd>{photo.filmStock ?? "Unknown"}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-stone-500">Shot At</dt>
+                    <dt className="text-stone-500">Created</dt>
                     <dd>
-                      {photo.shotAt
-                        ? new Intl.DateTimeFormat("zh-CN", {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
-                          }).format(photo.shotAt)
-                        : "Unknown"}
+                      {new Intl.DateTimeFormat("zh-CN", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      }).format(photo.createdAt)}
                     </dd>
                   </div>
                 </dl>

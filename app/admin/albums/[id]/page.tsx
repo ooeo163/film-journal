@@ -30,7 +30,6 @@ export default async function AdminAlbumDetailPage({
             select: {
               id: true,
               slug: true,
-              title: true,
               imageUrl: true,
             },
           },
@@ -44,32 +43,20 @@ export default async function AdminAlbumDetailPage({
   }
 
   const availablePhotos = await prisma.photo.findMany({
-    where: {
-      isPublished: true,
+    orderBy: {
+      createdAt: "desc",
     },
-    orderBy: [
-      {
-        shotAt: "desc",
-      },
-      {
-        createdAt: "desc",
-      },
-    ],
     take: 120,
     select: {
       id: true,
       slug: true,
-      title: true,
       imageUrl: true,
-      location: true,
-      camera: true,
     },
   });
 
   const linkedPhotos = album.photoLinks.map((link) => ({
     id: link.photo.id,
     slug: link.photo.slug,
-    title: link.photo.title,
     imageUrl: link.photo.imageUrl,
     sortOrder: link.sortOrder,
   }));

@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveUploadedLocalMedia } from "@/lib/local-media-server";
+import { requireAdmin } from "@/lib/require-admin";
 
 export async function POST(request: NextRequest) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   const formData = await request.formData();
   const file = formData.get("file");
   const targetFolder = String(formData.get("targetFolder") || "").trim();

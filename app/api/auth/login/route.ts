@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/password";
 
+function sanitizeRedirect(value: string): string {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) {
+    return "/albums";
+  }
+  return value;
+}
+
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const identifier =
@@ -12,10 +19,11 @@ export async function POST(request: NextRequest) {
     typeof formData.get("password") === "string"
       ? String(formData.get("password"))
       : "";
-  const redirectTo =
-    typeof formData.get("redirectTo") === "string" && formData.get("redirectTo")
+  const redirectTo = sanitizeRedirect(
+    typeof formData.get("redirectTo") === "string"
       ? String(formData.get("redirectTo"))
-      : "/albums";
+      : "",
+  );
 
   const user = identifier
     ? await prisma.user.findFirst({
@@ -26,18 +34,12 @@ export async function POST(request: NextRequest) {
       })
     : null;
 
-  if (!user || !user.password) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("redirectTo", redirectTo);
-    loginUrl.searchParams.set("error", "user-not-found");
-    return NextResponse.redirect(loginUrl);
-  }
+  const valid = user?.password ? await verifyPassword(password, user.password) : false;
 
-  const valid = await verifyPassword(password, user.password);
-  if (!valid) {
+  if (!user || !valid) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirectTo", redirectTo);
-    loginUrl.searchParams.set("error", "wrong-password");
+    loginUrl.searchParams.set("error", "invalid-credentials");
     return NextResponse.redirect(loginUrl);
   }
 

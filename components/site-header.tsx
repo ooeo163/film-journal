@@ -110,12 +110,14 @@ export function SiteHeader({ isLoggedIn, userName, userRole }: SiteHeaderProps) 
                         系统管理
                       </Link>
                     ) : null}
-                    <a
-                      href="/api/auth/logout"
-                      className="block rounded-[0.9rem] px-4 py-3 text-sm text-stone-200 transition-colors hover:bg-[rgba(40,31,25,0.82)]"
-                    >
-                      退出登录
-                    </a>
+                    <form method="post" action="/api/auth/logout">
+                      <button
+                        type="submit"
+                        className="block w-full rounded-[0.9rem] px-4 py-3 text-left text-sm text-stone-200 transition-colors hover:bg-[rgba(40,31,25,0.82)]"
+                      >
+                        退出登录
+                      </button>
+                    </form>
                   </>
                 ) : (
                   <a
@@ -221,9 +223,15 @@ export function SiteHeader({ isLoggedIn, userName, userRole }: SiteHeaderProps) 
                     系统管理
                   </Link>
                 ) : null}
-                <a href="/api/auth/logout" onClick={() => setMobileOpen(false)} className="mt-2 block py-2.5 text-sm tracking-wider text-stone-500 transition-colors hover:text-stone-300">
-                  退出登录
-                </a>
+                <form method="post" action="/api/auth/logout">
+                  <button
+                    type="submit"
+                    onClick={() => setMobileOpen(false)}
+                    className="mt-2 block w-full py-2.5 text-left text-sm tracking-wider text-stone-500 transition-colors hover:text-stone-300"
+                  >
+                    退出登录
+                  </button>
+                </form>
               </div>
             ) : (
               <a

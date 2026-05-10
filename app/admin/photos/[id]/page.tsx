@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminDeleteButton } from "@/components/admin-delete-button";
-import { AdminEditPhotoForm } from "@/components/admin-edit-photo-form";
 import { prisma } from "@/lib/prisma";
 
 type AdminEditPhotoPageProps = {
@@ -21,16 +20,12 @@ export default async function AdminEditPhotoPage({
     },
     select: {
       id: true,
-      title: true,
       slug: true,
-      description: true,
-      location: true,
-      camera: true,
-      lens: true,
-      filmStock: true,
-      shotAt: true,
-      isPublished: true,
       imageUrl: true,
+      thumbUrl: true,
+      creatorId: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 
@@ -71,7 +66,7 @@ export default async function AdminEditPhotoPage({
               <AdminDeleteButton
                 endpoint={`/api/admin/photos/${photo.id}`}
                 redirectTo="/admin/photos"
-                confirmText={`确定删除照片「${photo.title}」吗？这会把它从所有相册关联里移除。`}
+                confirmText={`确定删除照片「${photo.slug}」吗？这会把它从所有相册关联里移除。`}
                 className="border border-red-900/50 bg-red-950/20 px-4 py-2 text-sm text-red-200 transition-colors hover:border-red-700 hover:text-red-100 disabled:cursor-not-allowed disabled:opacity-60"
               />
             </div>
@@ -84,24 +79,15 @@ export default async function AdminEditPhotoPage({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={photo.imageUrl}
-                alt={photo.title}
+                alt={photo.slug}
                 className="h-auto w-full object-cover"
               />
             </div>
 
             <div className="mt-4 space-y-2 text-sm text-stone-400">
               <p>slug: {photo.slug}</p>
-              <p>
-                拍摄日期：
-                {photo.shotAt
-                  ? new Intl.DateTimeFormat("zh-CN", {
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "2-digit",
-                    }).format(photo.shotAt)
-                  : "-"}
-              </p>
-              <p>状态：{photo.isPublished ? "Published" : "Draft"}</p>
+              <p>创建时间：{new Date(photo.createdAt).toLocaleDateString("zh-CN")}</p>
+              <p>更新时间：{new Date(photo.updatedAt).toLocaleDateString("zh-CN")}</p>
             </div>
           </section>
 
@@ -112,14 +98,12 @@ export default async function AdminEditPhotoPage({
               </h2>
             </div>
 
-            <AdminEditPhotoForm
-              photo={{
-                ...photo,
-                shotAt: photo.shotAt
-                  ? new Date(photo.shotAt).toISOString().slice(0, 10)
-                  : "",
-              }}
-            />
+            <div className="px-5 py-5 text-sm text-stone-400">
+              <p>当前照片模型已精简，仅保留基本信息。图片 URL、缩略图 URL 等字段暂不支持在此页面编辑。</p>
+              <p className="mt-2">图片地址：<code className="text-xs text-stone-500">{photo.imageUrl}</code></p>
+              {photo.thumbUrl ? <p className="mt-1">缩略图：<code className="text-xs text-stone-500">{photo.thumbUrl}</code></p> : null}
+              {photo.creatorId ? <p className="mt-1">创建者 ID：<code className="text-xs text-stone-500">{photo.creatorId}</code></p> : null}
+            </div>
           </section>
         </div>
       </div>

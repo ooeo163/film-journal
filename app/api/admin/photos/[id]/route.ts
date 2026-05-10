@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/require-admin";
 
 type RouteContext = {
   params: Promise<{
@@ -8,6 +9,11 @@ type RouteContext = {
 };
 
 export async function DELETE(_: NextRequest, context: RouteContext) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
   const { id } = await context.params;
 
   const existingPhoto = await prisma.photo.findUnique({

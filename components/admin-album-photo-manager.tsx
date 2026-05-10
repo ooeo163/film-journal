@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 type LinkedPhoto = {
   id: string;
   slug: string;
-  title: string;
   imageUrl: string;
   sortOrder: number;
 };
@@ -14,10 +13,7 @@ type LinkedPhoto = {
 type AvailablePhoto = {
   id: string;
   slug: string;
-  title: string;
   imageUrl: string;
-  location: string | null;
-  camera: string | null;
 };
 
 type AdminAlbumPhotoManagerProps = {
@@ -169,14 +165,14 @@ export function AdminAlbumPhotoManager({
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={photo.imageUrl}
-                    alt={photo.title}
+                    alt={`照片 ${index + 1}`}
                     className="h-full w-full object-cover"
                   />
                 </div>
 
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-stone-100">
-                    {photo.title}
+                    照片 {index + 1}
                   </p>
                   <p className="mt-1 text-xs text-stone-500">
                     sort: {photo.sortOrder} / {photo.slug}
@@ -269,19 +265,16 @@ export function AdminAlbumPhotoManager({
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={photo.imageUrl}
-                      alt={photo.title}
+                      alt={photo.slug}
                       className="h-full w-full object-cover"
                     />
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-2 text-sm font-medium text-stone-100">
-                      {photo.title}
+                      {photo.slug}
                     </p>
                     <p className="mt-1 text-xs text-stone-500">{photo.slug}</p>
-                    <p className="mt-2 text-xs text-stone-500">
-                      {photo.location ?? "-"} / {photo.camera ?? "-"}
-                    </p>
                   </div>
                 </label>
               );

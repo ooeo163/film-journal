@@ -35,7 +35,6 @@ export default async function AdminEditAlbumPage({
           photo: {
             select: {
               id: true,
-              title: true,
               imageUrl: true,
             },
           },
