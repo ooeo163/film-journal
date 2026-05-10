@@ -1,5 +1,6 @@
 import { AlbumCoverGrid } from "@/components/album-cover-grid";
 import { CreateAlbumButton } from "@/components/create-album-button";
+import { resolveCosUrl } from "@/lib/cos-utils";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 
@@ -70,7 +71,7 @@ export default async function AlbumsPage() {
               title: album.title,
               slug: album.slug,
               description: album.description,
-              coverImageUrl: album.coverImageUrl || album.photoLinks[0]?.photo.thumbUrl || album.photoLinks[0]?.photo.imageUrl || null,
+              coverImageUrl: resolveCosUrl(album.coverImageUrl || album.photoLinks[0]?.photo.thumbUrl || album.photoLinks[0]?.photo.imageUrl),
               photoCount: album._count.photoLinks,
             }))}
           />

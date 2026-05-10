@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { PhotoWall } from "@/components/photo-wall";
 import { UploadPhotoButton } from "@/components/upload-photo-button";
 import { PhotoPagination } from "@/components/photo-pagination";
+import { resolveCosUrl } from "@/lib/cos-utils";
 import { cookies } from "next/headers";
 
 const PAGE_SIZE = 24;
@@ -88,8 +89,8 @@ export default async function PhotosPage({ searchParams }: PhotosPageProps) {
           <PhotoWall
             photos={photos.map((photo) => ({
               id: photo.id,
-              imageUrl: photo.imageUrl,
-              thumbUrl: photo.thumbUrl,
+              imageUrl: resolveCosUrl(photo.imageUrl) || photo.imageUrl,
+              thumbUrl: resolveCosUrl(photo.thumbUrl) || photo.thumbUrl,
             }))}
           />
 
