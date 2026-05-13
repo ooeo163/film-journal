@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { AdminBulkDeleteButton } from "@/components/admin-bulk-delete-button";
 import { AdminDataGrid } from "@/components/admin-data-grid";
 import { AdminDeleteButton } from "@/components/admin-delete-button";
@@ -7,6 +8,7 @@ import { AdminGridSelectTools } from "@/components/admin-grid-select-tools";
 import { AdminNotice } from "@/components/admin-notice";
 import { AdminShell } from "@/components/admin-shell";
 import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/require-admin";
 import { Prisma } from "@prisma/client";
 
 type AdminAlbumsPageProps = {
@@ -23,6 +25,13 @@ type AdminAlbumsPageProps = {
 export default async function AdminAlbumsPage({
   searchParams,
 }: AdminAlbumsPageProps) {
+  const user = await requireAuth();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const isSystemAdmin = user.role === "system_admin";
+  const ownershipFilter = isSystemAdmin ? {} : { creatorId: user.id };
   const { created, deleted, page, pageSize: pageSizeParam, q, status } =
     await searchParams;
   const currentPage = Math.max(1, Number(page || "1") || 1);
@@ -33,6 +42,7 @@ export default async function AdminAlbumsPage({
   const searchQuery = q?.trim() ?? "";
   const statusFilter = status === "published" || status === "draft" ? status : "all";
   const where: Prisma.AlbumWhereInput = {
+    ...ownershipFilter,
     ...(statusFilter === "published"
       ? { isPublished: true }
       : statusFilter === "draft"
@@ -67,10 +77,12 @@ export default async function AdminAlbumsPage({
     prisma.album.count({ where }),
     prisma.album.count({
       where: {
+        ...ownershipFilter,
         isPublished: true,
       },
     }),
     prisma.album.aggregate({
+      where: ownershipFilter,
       _sum: {
         imageCount: true,
       },

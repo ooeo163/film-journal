@@ -150,7 +150,7 @@ export function AdminEditJournalForm({ journal }: AdminEditJournalFormProps) {
             <input
               type="file"
               name="coverFile"
-              accept="image/jpeg,image/png,image/webp,image/gif"
+              accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
               className="w-full border border-dashed border-stone-700 bg-[#181411] px-3 py-2 text-stone-300 file:mr-3 file:border-0 file:bg-[#2a241f] file:px-3 file:py-2 file:text-sm file:text-stone-100 hover:file:bg-[#342c26]"
             />
           </label>

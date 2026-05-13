@@ -1,10 +1,21 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin-shell";
 import { AdminPhotoGrid } from "@/components/admin-photo-grid";
 import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/require-admin";
 
 export default async function AdminPhotosPage() {
+  const user = await requireAuth();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const isSystemAdmin = user.role === "system_admin";
   const photos = await prisma.photo.findMany({
+    where: isSystemAdmin
+      ? undefined
+      : { creatorId: user.id },
     orderBy: {
       createdAt: "desc",
     },

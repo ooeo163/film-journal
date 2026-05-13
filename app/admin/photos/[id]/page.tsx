@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { AdminDeleteButton } from "@/components/admin-delete-button";
 import { prisma } from "@/lib/prisma";
 import { getImageSrc } from "@/lib/local-media";
+import { requireAuth } from "@/lib/require-admin";
 
 type AdminEditPhotoPageProps = {
   params: Promise<{
@@ -14,6 +15,12 @@ export default async function AdminEditPhotoPage({
   params,
 }: AdminEditPhotoPageProps) {
   const { id } = await params;
+  const user = await requireAuth();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const isSystemAdmin = user.role === "system_admin";
 
   const photo = await prisma.photo.findUnique({
     where: {
@@ -30,7 +37,7 @@ export default async function AdminEditPhotoPage({
     },
   });
 
-  if (!photo) {
+  if (!photo || (!isSystemAdmin && photo.creatorId !== user.id)) {
     notFound();
   }
 

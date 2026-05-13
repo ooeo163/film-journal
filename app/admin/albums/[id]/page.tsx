@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { AdminDeleteButton } from "@/components/admin-delete-button";
 import { AdminShell } from "@/components/admin-shell";
 import { AdminAlbumPhotoManager } from "@/components/admin-album-photo-manager";
 import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/require-admin";
 
 type AdminAlbumDetailPageProps = {
   params: Promise<{
@@ -15,12 +16,23 @@ export default async function AdminAlbumDetailPage({
   params,
 }: AdminAlbumDetailPageProps) {
   const { id } = await params;
+  const user = await requireAuth();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const isSystemAdmin = user.role === "system_admin";
 
   const album = await prisma.album.findUnique({
     where: {
       id,
     },
-    include: {
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      coverImageUrl: true,
+      creatorId: true,
       photoLinks: {
         orderBy: {
           sortOrder: "asc",
@@ -38,11 +50,12 @@ export default async function AdminAlbumDetailPage({
     },
   });
 
-  if (!album) {
+  if (!album || (!isSystemAdmin && album.creatorId !== user.id)) {
     notFound();
   }
 
   const availablePhotos = await prisma.photo.findMany({
+    where: isSystemAdmin ? undefined : { creatorId: user.id },
     orderBy: {
       createdAt: "desc",
     },

@@ -123,9 +123,7 @@ export async function DELETE(_: NextRequest, context: RouteContext) {
     });
   } catch (error) {
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "delete-failed",
-      },
+      {error: error instanceof Error ? error.message : "delete-failed", },
       { status: 400 }
     );
   }

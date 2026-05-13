@@ -80,7 +80,7 @@ export function AdminBatchPhotoForm({ albums }: AdminBatchPhotoFormProps) {
             name="files"
             multiple
             required
-            accept="image/jpeg,image/png,image/webp,image/gif"
+            accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
             onChange={(event) => setFileCount(event.target.files?.length ?? 0)}
             className="w-full border border-stone-700 bg-[#181411] px-3 py-[7px] text-stone-300 file:mr-3 file:border-0 file:bg-stone-800 file:px-3 file:py-1.5 file:text-stone-100"
           />

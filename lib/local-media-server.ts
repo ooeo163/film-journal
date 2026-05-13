@@ -28,7 +28,11 @@ const allowedMimeTypes = new Set([
   "image/png",
   "image/webp",
   "image/gif",
+  "image/heic",
+  "image/heif",
 ]);
+
+const heicMimeTypes = new Set(["image/heic", "image/heif"]);
 
 export function sanitizeMediaSegment(value: string) {
   return value
@@ -86,7 +90,8 @@ export async function saveUploadedLocalMedia(
     throw new Error("Unsupported file type");
   }
 
-  const extension = path.extname(file.name).toLowerCase() || ".jpg";
+  const isHeic = heicMimeTypes.has(file.type);
+  const extension = isHeic ? ".jpg" : (path.extname(file.name).toLowerCase() || ".jpg");
   const baseName = sanitizeMediaSegment(path.parse(file.name).name) || "image";
   const now = new Date();
   const year = String(now.getFullYear());
@@ -98,9 +103,15 @@ export async function saveUploadedLocalMedia(
   const arrayBuffer = await file.arrayBuffer();
   let imageBuffer = Buffer.from(arrayBuffer);
 
+  // HEIC/HEIF → JPEG 转换
+  if (isHeic) {
+    imageBuffer = Buffer.from(await sharp(imageBuffer).jpeg({ quality: 90 }).toBuffer());
+  }
+
   let isCompressed = false;
+  const processingMime = isHeic ? "image/jpeg" : file.type;
   if (imageBuffer.length > MAX_ORIGINAL_SIZE) {
-    const compressed = await compressImage(imageBuffer, file.type);
+    const compressed = await compressImage(imageBuffer, processingMime);
     imageBuffer = Buffer.from(compressed);
     isCompressed = true;
   }
@@ -112,7 +123,7 @@ export async function saveUploadedLocalMedia(
   await fs.mkdir(path.dirname(originalFilePath), { recursive: true });
   await fs.writeFile(originalFilePath, imageBuffer);
 
-  let thumbBuffer = await generateThumbnail(imageBuffer, file.type);
+  let thumbBuffer = await generateThumbnail(imageBuffer, processingMime);
 
   let thumbQuality = 82;
   while (thumbBuffer.length > MAX_THUMB_SIZE && thumbQuality > 30) {
@@ -122,9 +133,9 @@ export async function saveUploadedLocalMedia(
       withoutEnlargement: true,
     });
 
-    if (file.type === "image/png") {
+    if (processingMime === "image/png") {
       thumbBuffer = await image.png({ quality: thumbQuality }).toBuffer();
-    } else if (file.type === "image/webp") {
+    } else if (processingMime === "image/webp") {
       thumbBuffer = await image.webp({ quality: thumbQuality }).toBuffer();
     } else {
       thumbBuffer = await image.jpeg({ quality: thumbQuality }).toBuffer();

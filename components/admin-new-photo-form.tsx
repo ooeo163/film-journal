@@ -84,7 +84,7 @@ export function AdminNewPhotoForm({
             type="file"
             name="file"
             required
-            accept="image/jpeg,image/png,image/webp,image/gif"
+            accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
             className="w-full border border-[#d6d0c5] bg-[#fbfaf7] px-3 py-[7px] text-[#33312e] file:mr-3 file:border file:border-[#d6d0c5] file:bg-white file:px-3 file:py-1.5 file:text-[#33312e]"
           />
         </label>

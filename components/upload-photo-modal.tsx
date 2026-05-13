@@ -125,7 +125,7 @@ export function UploadPhotoModal({ albums, defaultAlbumId, onClose }: UploadPhot
               name="files"
               multiple
               required
-              accept="image/jpeg,image/png,image/webp,image/gif"
+              accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
               onChange={(e) => setFileCount(e.target.files?.length ?? 0)}
               className="rounded-[1rem] border border-stone-700/80 bg-[rgba(28,22,18,0.76)] px-4 py-3 text-stone-100 outline-none transition-colors file:mr-3 file:rounded-[0.5rem] file:border-0 file:bg-stone-700 file:px-3 file:py-1.5 file:text-sm file:text-stone-200 hover:file:bg-stone-600"
             />
