@@ -2,13 +2,16 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { AccountShell } from "@/components/account-shell";
 import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/require-admin";
 
 export default async function MyAlbumsPage() {
   const cookieStore = await cookies();
   const userName = cookieStore.get("fj_user_name")?.value || null;
+  const user = await requireAuth();
   const albums = await prisma.album.findMany({
     where: {
       isPublished: true,
+      ...(user ? { creatorId: user.id } : {}),
     },
     orderBy: {
       createdAt: "desc",

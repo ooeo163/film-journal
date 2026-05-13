@@ -1,9 +1,18 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/require-admin";
 import { AdminBatchPhotoForm } from "@/components/admin-batch-photo-form";
 
 export default async function AdminBatchPhotosPage() {
+  const user = await requireAuth();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const isSystemAdmin = user.role === "system_admin";
   const albums = await prisma.album.findMany({
+    where: isSystemAdmin ? undefined : { creatorId: user.id },
     orderBy: {
       createdAt: "desc",
     },

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { AdminNewPhotoForm } from "@/components/admin-new-photo-form";
 import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/require-admin";
 
 type AdminNewPhotoPageProps = {
   searchParams?: Promise<{
@@ -11,10 +13,17 @@ type AdminNewPhotoPageProps = {
 export default async function AdminNewPhotoPage({
   searchParams,
 }: AdminNewPhotoPageProps) {
+  const user = await requireAuth();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const isSystemAdmin = user.role === "system_admin";
   const [albums, params] = await Promise.all([
     prisma.album.findMany({
       where: {
         isPublished: true,
+        ...(isSystemAdmin ? {} : { creatorId: user.id }),
       },
       orderBy: {
         createdAt: "desc",
