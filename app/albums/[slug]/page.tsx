@@ -19,9 +19,10 @@ export default async function AlbumDetailPage({
   const userId = cookieStore.get("fj_user_id")?.value;
 
   const [album, albumList, userAlbums] = await Promise.all([
-    prisma.album.findUnique({
+    prisma.album.findFirst({
       where: {
         slug,
+        creatorId: userId || undefined,
       },
       include: {
         photoLinks: {
@@ -37,6 +38,7 @@ export default async function AlbumDetailPage({
     prisma.album.findMany({
       where: {
         isPublished: true,
+        creatorId: userId || undefined,
       },
       orderBy: {
         createdAt: "desc",

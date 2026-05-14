@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { PhotoDetailViewer } from "@/components/photo-detail-viewer";
 import { prisma } from "@/lib/prisma";
 import { getImageSrc } from "@/lib/local-media";
+import { cookies } from "next/headers";
 
 type PhotoDetailPageProps = {
   params: Promise<{
@@ -13,10 +14,13 @@ export default async function PhotoDetailPage({
   params,
 }: PhotoDetailPageProps) {
   const { slug } = await params;
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("fj_user_id")?.value;
 
-  const photo = await prisma.photo.findUnique({
+  const photo = await prisma.photo.findFirst({
     where: {
       slug,
+      creatorId: userId || undefined,
     },
   });
 
