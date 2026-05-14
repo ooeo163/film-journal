@@ -1,7 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AdminEditAlbumForm } from "@/components/admin-edit-album-form";
 import { prisma } from "@/lib/prisma";
+import { getImageSrc } from "@/lib/local-media";
 
 type AdminEditAlbumPageProps = {
   params: Promise<{
@@ -85,10 +87,11 @@ export default async function AdminEditAlbumPage({
           <section className="border border-stone-700 bg-[#221d18] p-4 shadow-[0_1px_0_rgba(255,255,255,0.03)_inset]">
             <div className="overflow-hidden border border-stone-800 bg-[#181411]">
               {album.coverImageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={album.coverImageUrl}
+                <Image
+                  src={getImageSrc(album.coverImageUrl)}
                   alt={album.title}
+                  width={1200}
+                  height={900}
                   className="h-auto w-full object-cover"
                 />
               ) : (

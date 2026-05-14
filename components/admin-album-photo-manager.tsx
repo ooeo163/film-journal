@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getImageSrc } from "@/lib/local-media";
 
@@ -151,11 +152,12 @@ export function AdminAlbumPhotoManager({
                 key={photo.id}
                 className="flex items-center gap-4 border border-stone-800 bg-[#1a1613] p-3"
               >
-                <div className="flex h-16 w-16 items-center justify-center overflow-hidden border border-stone-700 bg-[#14110f]">
-                  <img
+                <div className="relative h-16 w-16 overflow-hidden border border-stone-700 bg-[#14110f]">
+                  <Image
                     src={getImageSrc(photo.imageUrl)}
                     alt={`照片 ${index + 1}`}
-                    className="h-full w-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                 </div>
 
@@ -250,11 +252,12 @@ export function AdminAlbumPhotoManager({
                     onChange={() => togglePhoto(photo.id)}
                   />
 
-                  <div className="flex h-20 w-20 items-center justify-center overflow-hidden border border-stone-700 bg-[#14110f]">
-                    <img
+                  <div className="relative h-20 w-20 overflow-hidden border border-stone-700 bg-[#14110f]">
+                    <Image
                       src={getImageSrc(photo.imageUrl)}
                       alt={photo.slug}
-                      className="h-full w-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
 

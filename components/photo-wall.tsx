@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { PhotoViewerGallery } from "@/components/photo-viewer-gallery";
 import { PhotoViewerItem } from "@/components/photo-viewer-modal";
 import { getImageSrc } from "@/lib/local-media";
@@ -40,13 +41,13 @@ export function PhotoWall({ photos }: PhotoWallProps) {
               onClick={() => openAt(index)}
               aria-label="查看照片"
             >
-              <div className="aspect-[3/4] border border-stone-700/80 bg-[rgba(16,13,11,0.88)]">
-                <img
+              <div className="relative aspect-[3/4] border border-stone-700/80 bg-[rgba(16,13,11,0.88)]">
+                <Image
                   src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
                   alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035] group-hover:brightness-110"
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                  className="object-cover transition duration-500 group-hover:scale-[1.035] group-hover:brightness-110"
                 />
               </div>
               <div className="pointer-events-none absolute inset-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">

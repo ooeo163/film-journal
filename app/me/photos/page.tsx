@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import Image from "next/image";
 import { AccountShell } from "@/components/account-shell";
 import { prisma } from "@/lib/prisma";
 import { getImageSrc } from "@/lib/local-media";
@@ -36,14 +37,13 @@ export default async function MyPhotosPage() {
                 key={photo.id}
                 className="group relative overflow-hidden border border-stone-700/70 bg-[rgba(28,22,18,0.72)]"
               >
-                <div className="aspect-[3/4] bg-[#16120f]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                <div className="relative aspect-[3/4] bg-[#16120f]">
+                  <Image
                     src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
                     alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                    className="object-cover"
                   />
                 </div>
               </div>

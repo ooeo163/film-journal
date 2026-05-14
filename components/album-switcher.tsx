@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { getImageSrc } from "@/lib/local-media";
 
 type AlbumSwitcherItem = {
@@ -35,14 +36,14 @@ function AlbumLink({
           : "flex items-center gap-3 rounded-[1.4rem] border border-stone-700/70 bg-[rgba(28,22,18,0.72)] p-3 text-stone-300 transition-colors hover:bg-[rgba(40,31,25,0.82)]"
       }
     >
-      <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-[0.8rem] border border-stone-700/60 bg-[rgba(16,13,11,0.88)]">
+      <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-[0.8rem] border border-stone-700/60 bg-[rgba(16,13,11,0.88)]">
         {item.coverImageUrl ? (
-          <img
+          <Image
             src={getImageSrc(item.coverImageUrl)}
             alt=""
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover"
+            fill
+            sizes="56px"
+            className="object-cover"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-[10px] text-stone-500">

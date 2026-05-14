@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getImageSrc } from "@/lib/local-media";
 
 type AlbumCover = {
@@ -24,14 +25,14 @@ export function AlbumCoverGrid({ albums }: AlbumCoverGridProps) {
             className="group relative block overflow-hidden rounded-xl border border-stone-700/80 bg-[rgba(28,22,18,0.82)] shadow-[0_8px_24px_rgba(0,0,0,0.2)] backdrop-blur-[2px] transition duration-300 ease-out hover:-translate-y-0.5 hover:border-stone-500/80 hover:bg-[rgba(36,29,24,0.9)]"
             href={`/albums/${album.slug}`}
           >
-            <div className="aspect-[3/4] bg-[rgba(16,13,11,0.88)]">
+            <div className="relative aspect-[3/4] bg-[rgba(16,13,11,0.88)]">
               {album.coverImageUrl ? (
-                <img
+                <Image
                   src={getImageSrc(album.coverImageUrl)}
                   alt={album.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
               ) : (
                 <div className="flex h-full items-center justify-center text-[10px] uppercase tracking-[0.3em] text-stone-500">

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getImageSrc } from "@/lib/local-media";
 
@@ -134,12 +135,13 @@ export function AdminEditAlbumForm({ album }: AdminEditAlbumFormProps) {
           </div>
 
           {album.coverImageUrl ? (
-            <div className="overflow-hidden border border-stone-700 bg-[#14110f]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative h-44 overflow-hidden border border-stone-700 bg-[#14110f]">
+              <Image
                 src={getImageSrc(album.coverImageUrl)}
                 alt={`${album.title} cover`}
-                className="h-44 w-full object-cover"
+                fill
+                sizes="176px"
+                className="object-cover"
               />
             </div>
           ) : null}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Image from "next/image";
 import { PhotoViewerGallery } from "@/components/photo-viewer-gallery";
 import { getImageSrc } from "@/lib/local-media";
 
@@ -101,13 +102,13 @@ export function AlbumFilmStrip({
                             aria-label={`Open Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`}
                           >
                             <div className="rounded-[0.9rem] border border-stone-700/70 bg-black/75 p-1.5">
-                              <div className="aspect-[4/3] overflow-hidden rounded-[0.7rem] bg-[rgba(16,13,11,0.92)]">
-                                <img
+                              <div className="relative aspect-[4/3] overflow-hidden rounded-[0.7rem] bg-[rgba(16,13,11,0.92)]">
+                                <Image
                                   src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
                                   alt={`Frame ${String(photo.sortOrder + 1).padStart(2, "0")}`}
-                                  loading="lazy"
-                                  decoding="async"
-                                  className="h-full w-full object-cover"
+                                  fill
+                                  sizes="(max-width: 768px) 50vw, 25vw"
+                                  className="object-cover"
                                 />
                               </div>
                             </div>

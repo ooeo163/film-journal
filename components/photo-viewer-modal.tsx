@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
+import { getImageSrc } from "@/lib/local-media";
 
 export type PhotoViewerItem = {
   id: string;
@@ -117,23 +119,21 @@ export function PhotoViewerModal({
             </button>
 
             <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[0.9rem] border border-stone-800/90 bg-black/60">
-              <img
-                src={currentItem.imageUrl}
+              <Image
+                src={getImageSrc(currentItem.imageUrl)}
                 alt=""
                 aria-hidden="true"
-                loading="lazy"
-                decoding="async"
-                className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-2xl"
+                fill
+                className="pointer-events-none scale-110 object-cover opacity-35 blur-2xl"
               />
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(6,5,4,0.28)_58%,rgba(6,5,4,0.65)_100%)]" />
               <div className="relative z-10 flex h-full w-full items-center justify-center px-2 py-1 md:px-4 md:py-2">
-                <div className="flex h-full w-full items-center justify-center rounded-[0.8rem] border border-stone-700/60 bg-[rgba(14,12,11,0.3)] p-1 md:p-2">
-                  <img
-                    src={currentItem.imageUrl}
+                <div className="relative flex h-full w-full items-center justify-center rounded-[0.8rem] border border-stone-700/60 bg-[rgba(14,12,11,0.3)] p-1 md:p-2">
+                  <Image
+                    src={getImageSrc(currentItem.imageUrl)}
                     alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full max-w-full object-contain shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+                    fill
+                    className="object-contain shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
                   />
                 </div>
               </div>

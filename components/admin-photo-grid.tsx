@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getImageSrc } from "@/lib/local-media";
 
@@ -67,13 +68,13 @@ export function AdminPhotoGrid({ photos }: AdminPhotoGridProps) {
           key={photo.id}
           className="group relative overflow-hidden border border-[#d6d0c5] bg-white"
         >
-          <div className="aspect-[3/4] bg-[#f7f5f0]">
-            <img
+          <div className="relative aspect-[3/4] bg-[#f7f5f0]">
+            <Image
               src={getImageSrc(photo.thumbUrl ?? photo.imageUrl)}
               alt={photo.slug}
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-cover"
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+              className="object-cover"
             />
           </div>
           <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2 opacity-0 transition-opacity group-hover:opacity-100">
