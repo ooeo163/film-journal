@@ -3,6 +3,7 @@ import { PhotoWall } from "@/components/photo-wall";
 import { UploadPhotoButton } from "@/components/upload-photo-button";
 import { PhotoPagination } from "@/components/photo-pagination";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const PAGE_SIZE = 24;
 
@@ -15,11 +16,16 @@ type PhotosPageProps = {
 export default async function PhotosPage({ searchParams }: PhotosPageProps) {
   const cookieStore = await cookies();
   const userId = cookieStore.get("fj_user_id")?.value;
+
+  if (!userId) {
+    redirect("/login");
+  }
+
   const params = searchParams ? await searchParams : undefined;
   const currentPage = Math.max(1, Number(params?.page || "1") || 1);
 
   const where = {
-    creatorId: userId || undefined,
+    creatorId: userId,
   };
 
   const [photos, totalCount] = await Promise.all([
@@ -43,7 +49,7 @@ export default async function PhotosPage({ searchParams }: PhotosPageProps) {
 
   const albums = await prisma.album.findMany({
     where: {
-      creatorId: userId || undefined,
+      creatorId: userId,
     },
     orderBy: {
       createdAt: "desc",

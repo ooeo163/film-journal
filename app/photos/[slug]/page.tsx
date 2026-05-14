@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { PhotoDetailViewer } from "@/components/photo-detail-viewer";
 import { prisma } from "@/lib/prisma";
 import { getImageSrc } from "@/lib/local-media";
@@ -17,10 +17,14 @@ export default async function PhotoDetailPage({
   const cookieStore = await cookies();
   const userId = cookieStore.get("fj_user_id")?.value;
 
+  if (!userId) {
+    redirect("/login");
+  }
+
   const photo = await prisma.photo.findFirst({
     where: {
       slug,
-      creatorId: userId || undefined,
+      creatorId: userId,
     },
   });
 
