@@ -3,10 +3,10 @@ import { redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin-shell";
 import { AdminPhotoGrid } from "@/components/admin-photo-grid";
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/require-admin";
+import { requireAdmin } from "@/lib/require-admin";
 
 export default async function AdminPhotosPage() {
-  const user = await requireAuth();
+  const user = await requireAdmin();
   if (!user) {
     redirect("/login");
   }

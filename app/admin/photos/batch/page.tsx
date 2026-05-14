@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/require-admin";
+import { requireAdmin } from "@/lib/require-admin";
 import { AdminBatchPhotoForm } from "@/components/admin-batch-photo-form";
 
 export default async function AdminBatchPhotosPage() {
-  const user = await requireAuth();
+  const user = await requireAdmin();
   if (!user) {
     redirect("/login");
   }

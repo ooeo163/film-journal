@@ -2,15 +2,20 @@ import { AlbumCoverGrid } from "@/components/album-cover-grid";
 import { CreateAlbumButton } from "@/components/create-album-button";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function AlbumsPage() {
   const cookieStore = await cookies();
   const userId = cookieStore.get("fj_user_id")?.value;
 
+  if (!userId) {
+    redirect("/login");
+  }
+
   const albums = await prisma.album.findMany({
     where: {
       isPublished: true,
-      creatorId: userId || undefined,
+      creatorId: userId,
     },
     orderBy: {
       createdAt: "desc",

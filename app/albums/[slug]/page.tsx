@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { AlbumFilmStrip } from "@/components/album-film-strip";
 import { AlbumSwitcher } from "@/components/album-switcher";
 import { AlbumUploadButton } from "@/components/album-upload-button";
@@ -18,11 +18,15 @@ export default async function AlbumDetailPage({
   const cookieStore = await cookies();
   const userId = cookieStore.get("fj_user_id")?.value;
 
+  if (!userId) {
+    redirect("/login");
+  }
+
   const [album, albumList, userAlbums] = await Promise.all([
     prisma.album.findFirst({
       where: {
         slug,
-        creatorId: userId || undefined,
+        creatorId: userId,
       },
       include: {
         photoLinks: {
@@ -38,7 +42,7 @@ export default async function AlbumDetailPage({
     prisma.album.findMany({
       where: {
         isPublished: true,
-        creatorId: userId || undefined,
+        creatorId: userId,
       },
       orderBy: {
         createdAt: "desc",
@@ -62,7 +66,7 @@ export default async function AlbumDetailPage({
     }),
     prisma.album.findMany({
       where: {
-        creatorId: userId || undefined,
+        creatorId: userId,
       },
       orderBy: {
         createdAt: "desc",

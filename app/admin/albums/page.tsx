@@ -8,7 +8,7 @@ import { AdminGridSelectTools } from "@/components/admin-grid-select-tools";
 import { AdminNotice } from "@/components/admin-notice";
 import { AdminShell } from "@/components/admin-shell";
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/require-admin";
+import { requireAdmin } from "@/lib/require-admin";
 import { Prisma } from "@prisma/client";
 
 type AdminAlbumsPageProps = {
@@ -25,7 +25,7 @@ type AdminAlbumsPageProps = {
 export default async function AdminAlbumsPage({
   searchParams,
 }: AdminAlbumsPageProps) {
-  const user = await requireAuth();
+  const user = await requireAdmin();
   if (!user) {
     redirect("/login");
   }

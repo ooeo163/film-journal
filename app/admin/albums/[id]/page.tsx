@@ -4,7 +4,7 @@ import { AdminDeleteButton } from "@/components/admin-delete-button";
 import { AdminShell } from "@/components/admin-shell";
 import { AdminAlbumPhotoManager } from "@/components/admin-album-photo-manager";
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/require-admin";
+import { requireAdmin } from "@/lib/require-admin";
 
 type AdminAlbumDetailPageProps = {
   params: Promise<{
@@ -16,7 +16,7 @@ export default async function AdminAlbumDetailPage({
   params,
 }: AdminAlbumDetailPageProps) {
   const { id } = await params;
-  const user = await requireAuth();
+  const user = await requireAdmin();
   if (!user) {
     redirect("/login");
   }

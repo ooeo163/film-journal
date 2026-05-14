@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AdminNewPhotoForm } from "@/components/admin-new-photo-form";
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/require-admin";
+import { requireAdmin } from "@/lib/require-admin";
 
 type AdminNewPhotoPageProps = {
   searchParams?: Promise<{
@@ -13,7 +13,7 @@ type AdminNewPhotoPageProps = {
 export default async function AdminNewPhotoPage({
   searchParams,
 }: AdminNewPhotoPageProps) {
-  const user = await requireAuth();
+  const user = await requireAdmin();
   if (!user) {
     redirect("/login");
   }

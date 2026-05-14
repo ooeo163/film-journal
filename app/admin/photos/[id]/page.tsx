@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { AdminDeleteButton } from "@/components/admin-delete-button";
 import { prisma } from "@/lib/prisma";
 import { getImageSrc } from "@/lib/local-media";
-import { requireAuth } from "@/lib/require-admin";
+import { requireAdmin } from "@/lib/require-admin";
 
 type AdminEditPhotoPageProps = {
   params: Promise<{
@@ -16,7 +16,7 @@ export default async function AdminEditPhotoPage({
   params,
 }: AdminEditPhotoPageProps) {
   const { id } = await params;
-  const user = await requireAuth();
+  const user = await requireAdmin();
   if (!user) {
     redirect("/login");
   }
